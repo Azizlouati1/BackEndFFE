@@ -35,6 +35,10 @@ public class Quiz {
         this.score = score;
     }
 
+    public Quiz() {
+        super();
+    }
+
     public int getId() {
         return id;
     }

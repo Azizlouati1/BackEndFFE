@@ -7,7 +7,7 @@ import com.cni.elearning.Models.Answer;
 import com.cni.elearning.Repositories.AnswerRepository;
 
 @Service
-public class AnswerServiceImpl {
+public class AnswerServiceImpl implements IAnswerService {
 
     private final AnswerRepository answerRepository;
 
@@ -29,6 +29,15 @@ public class AnswerServiceImpl {
 
     public void deleteAnswer(int id) {
         answerRepository.deleteById(id);
+    }
+
+    public List<Answer> getAnswersByQuestionId(int questionId) {
+        return answerRepository.findByQuestionId(questionId);
+    }
+
+    public Answer updateAnswer(Answer answer, int id) {
+        answer.setId(id);
+        return answerRepository.save(answer);
     }
     
 }

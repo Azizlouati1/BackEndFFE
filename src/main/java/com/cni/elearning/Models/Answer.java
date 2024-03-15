@@ -23,6 +23,10 @@ public class Answer {
         this.question = question;
     }
 
+    public Answer() {
+        super();
+    }
+
     public int getId() {
         return id;
     }

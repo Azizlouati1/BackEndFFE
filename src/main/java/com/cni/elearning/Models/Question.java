@@ -1,6 +1,4 @@
 package com.cni.elearning.Models;
-
-import java.util.HashMap;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -22,6 +20,10 @@ public class Question {
         this.quiz = quiz;
         this.question = question;
         this.options = options;
+    }
+
+    public Question() {
+        super();
     }
 
     public int getId() {
