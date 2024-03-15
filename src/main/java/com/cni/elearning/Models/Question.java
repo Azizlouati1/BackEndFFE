@@ -1,6 +1,7 @@
 package com.cni.elearning.Models;
 
 import java.util.HashMap;
+import java.util.List;
 
 import jakarta.persistence.*;
 @Entity
@@ -12,9 +13,10 @@ public class Question {
     @ManyToOne
     private Quiz quiz;
     private String question;
-    private HashMap<String, Boolean> options;
+    @OneToMany(mappedBy = "question")
+    private List<Answer> options;
 
-    public Question(int id, Quiz quiz, String question, HashMap<String, Boolean> options) {
+    public Question(int id, Quiz quiz, String question, List<Answer> options) {
         super();
         this.id = id;
         this.quiz = quiz;
@@ -46,11 +48,11 @@ public class Question {
         this.question = question;
     }
 
-    public HashMap<String, Boolean> getOptions() {
+    public List<Answer> getOptions() {
         return options;
     }
 
-    public void setOptions(HashMap<String, Boolean> options) {
+    public void setOptions(List<Answer> options) {
         this.options = options;
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import com.cni.elearning.Models.Cour;
 import com.cni.elearning.Repositories.CourRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CourServiceImpl implements ICourService{
@@ -30,13 +32,30 @@ public class CourServiceImpl implements ICourService{
         return courRepository.findByLessonId(lessonId);
     }
 
+@Override
+public Cour getCourById(int id) {
+    Optional<Cour> optionalCour = courRepository.findById(id);
+    if (optionalCour.isPresent()) {
+        return optionalCour.get();
+    } else {
+        // Handle the case where the Cour object with the given ID doesn't exist
+        // For now, let's throw an exception
+        throw new NoSuchElementException("Cour with id " + id + " not found");
+    }
+}
+
     @Override
-    public Cour getCourById(int id) {
-        return courRepository.findById(id).get();
+    public void deleteCour(int courseId) {
+        Cour cour = courRepository.findById(courseId).orElse(null);
+        if (cour != null) {
+            List<Cour> recommendedCourses = cour.getRecommendedCourses();
+            recommendedCourses.removeIf(course -> course.getId() == courseId);
+            courRepository.deleteCourseFromRecommendedCourses(courseId);
+        }
     }
 
     @Override
-    public void deleteCour(int id) {
-        courRepository.deleteById(id);
+    public Cour updateCour(Cour cour) {
+        return courRepository.save(cour);
     }
 }

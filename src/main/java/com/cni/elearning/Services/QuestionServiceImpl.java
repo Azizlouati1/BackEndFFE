@@ -3,9 +3,11 @@ package com.cni.elearning.Services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.cni.elearning.Models.Question;
 import com.cni.elearning.Repositories.QuestionRepository;
-
+@Service    
 public class QuestionServiceImpl implements IQuestionService{
     private final QuestionRepository questionRepository;
 

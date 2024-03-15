@@ -6,6 +6,8 @@ import com.cni.elearning.Models.Question;
 import com.cni.elearning.Repositories.QuizRepository;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+@Service    
 public class QuizServiceImpl implements IQuizService{
 
     private final QuizRepository quizRepository;

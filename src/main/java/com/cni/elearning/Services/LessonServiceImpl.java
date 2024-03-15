@@ -3,11 +3,13 @@ package com.cni.elearning.Services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.cni.elearning.Models.Chapter;
 import com.cni.elearning.Models.Lesson;
 import com.cni.elearning.Models.Quiz;
 import com.cni.elearning.Repositories.LessonRepository;
-
+@Service
 public class LessonServiceImpl implements ILessonService{
     
     private final LessonRepository lessonRepository;
@@ -34,6 +36,11 @@ public class LessonServiceImpl implements ILessonService{
     @Override
     public void deleteLesson(int id) {
         lessonRepository.deleteById(id);
+    }
+    @Override
+    public Lesson updateLesson(Lesson lesson, int id) {
+        lesson.setId(id);
+        return lessonRepository.save(lesson);
     }
     @Override
     public Quiz getQuizByLessonId(int id) {

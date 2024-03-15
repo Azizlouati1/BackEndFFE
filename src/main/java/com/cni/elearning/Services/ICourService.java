@@ -10,6 +10,7 @@ public interface ICourService {
     Cour getCourByLessonId(int lessonId);
     Cour getCourById(int id);
     Cour saveCour(Cour cour);
+    Cour updateCour(Cour cour);
     void deleteCour(int id);
 
     

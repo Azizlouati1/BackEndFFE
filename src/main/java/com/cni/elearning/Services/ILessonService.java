@@ -14,4 +14,5 @@ public interface ILessonService {
     Lesson saveLesson(Lesson lesson);
     void deleteLesson(int id);
     Quiz getQuizByLessonId(int id); 
+    Lesson updateLesson(Lesson lesson, int id);
 }

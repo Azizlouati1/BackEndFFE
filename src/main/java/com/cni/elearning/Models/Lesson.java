@@ -2,6 +2,10 @@ package com.cni.elearning.Models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.*;
 @Entity
 public class Lesson {
@@ -33,6 +37,10 @@ public class Lesson {
         this.chapters = chapters;
         this.quiz = quiz;
     }
+    
+    public Lesson () {
+    	super();
+    }
 
     public int getId() {
         return id;
@@ -41,14 +49,16 @@ public class Lesson {
     public void setId(int id) {
         this.id = id;
     }
-
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     public Cour getCour() {
         return cour;
     }
-
-    public void setCour(Cour cour) {
-        this.cour = cour;
+    public void setCour(int courId) {
+        this.cour = new Cour();
+        this.cour.setId(courId);
     }
+
 
     public String getTitle() {
         return title;

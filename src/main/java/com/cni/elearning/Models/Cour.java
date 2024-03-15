@@ -2,6 +2,10 @@ package com.cni.elearning.Models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -22,8 +26,11 @@ public class Cour {
     private Boolean premium;
     @Column(nullable = true )
     private String recommendedLevel;
-    @Column(nullable = true )
-    private List<String> recommendedCourses;
+	@ManyToMany
+    @JoinTable(name = "recommended_courses",
+            joinColumns = @JoinColumn(name = "cour_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Cour> recommendedCourses;
     @Column(nullable = true )
     @OneToMany(mappedBy = "cour")
     private List<Lesson> lessons;
@@ -33,7 +40,7 @@ public class Cour {
 
 
 	public Cour(int id, String title, String description, String category, int difficulty, Boolean premium,
-			String recommendedLevel, List<String> recommendedCourses, List<Lesson> lessons, byte[] image) {
+			String recommendedLevel, List<Cour> recommendedCourses, List<Lesson> lessons, byte[] image) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -45,6 +52,9 @@ public class Cour {
 		this.recommendedCourses = recommendedCourses;
 		this.lessons = lessons;
         this.image = image;
+	}
+	public Cour() {
+		super();
 	}
 
 	public int getId() {
@@ -102,15 +112,17 @@ public class Cour {
 	public void setRecommendedLevel(String recommendedLevel) {
 		this.recommendedLevel = recommendedLevel;
 	}
-
-	public List<String> getRecommendedCourses() {
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+	@JsonIdentityReference(alwaysAsId = true)
+	public List<Cour> getRecommendedCourses() {
 		return recommendedCourses;
 	}
 
-	public void setRecommendedCourses(List<String> recommendedCourses) {
+	public void setRecommendedCourses(List<Cour> recommendedCourses) {
 		this.recommendedCourses = recommendedCourses;
 	}
-
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+	@JsonIdentityReference(alwaysAsId = true)
 	public List<Lesson> getLessons() {
 		return lessons;
 	}
@@ -126,5 +138,4 @@ public class Cour {
     public void setImage(byte[] image) {
         this.image = image;
     }
-
 }

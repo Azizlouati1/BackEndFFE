@@ -2,9 +2,12 @@ package com.cni.elearning.Services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.cni.elearning.Models.Chapter;
 import com.cni.elearning.Repositories.ChapterRepository;
 
+@Service
 public class ChapterServiceImpl implements IChapterService{
 
     private final ChapterRepository chapterRepository;
@@ -30,6 +33,9 @@ public class ChapterServiceImpl implements IChapterService{
     }
     public List<Chapter> getChaptersByLessonId(int LessonId) {
         return chapterRepository.findByLessonId(LessonId);
+    }
+    public Chapter updateChapter(Chapter chapter) {
+        return chapterRepository.save(chapter);
     }
 
 }

@@ -35,6 +35,12 @@ public class CourController {
         return savedCour;
     }
 
+    @PutMapping("/")
+    public Cour updateCour(@RequestBody Cour cour){
+        Cour updatedCour = courService.updateCour(cour);
+        return updatedCour;
+    }
+
     @DeleteMapping("/{id}")
     public void deleteCour(@PathVariable int id){
         courService.deleteCour(id);
