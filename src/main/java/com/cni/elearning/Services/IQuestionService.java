@@ -11,5 +11,6 @@ public interface IQuestionService {
     Question getQuestionById(int id);
     Question saveQuestion(Question question);
     void deleteQuestion(int id);
+    void deleteQuestionByQuizId(int quizId);
 
 }

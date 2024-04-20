@@ -35,6 +35,10 @@ public class QuestionServiceImpl implements IQuestionService{
     public void deleteQuestion(int id) {
         questionRepository.deleteById(id);
     }
+    @Override
+    public void deleteQuestionByQuizId(int quizId) {
+        questionRepository.deleteByQuizId(quizId);
+    }
 
    
 

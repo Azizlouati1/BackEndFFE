@@ -45,6 +45,10 @@ public class QuestionController {
         List<Question> questions = questionService.getQuestionsByQuizId(quizId);
         return questions;
     }
+    @DeleteMapping("/deleteQuestionByQuizId/{quizId}")
+    public void deleteQuestionByQuizId(@PathVariable int quizId){
+        questionService.deleteQuestionByQuizId(quizId);
+    }
 
 
 }

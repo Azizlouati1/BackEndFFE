@@ -11,4 +11,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer>{
     
     @Query("SELECT q FROM Question q WHERE q.quiz.id = :quizId")
     public List<Question> findByQuizId(int quizId);
+    @Query("DELETE FROM Question q WHERE q.quiz.id = :quizId")
+    public void deleteByQuizId(int quizId);
 }
