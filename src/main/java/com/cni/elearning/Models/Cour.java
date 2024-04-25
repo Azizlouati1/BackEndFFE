@@ -1,5 +1,6 @@
 package com.cni.elearning.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -73,6 +74,24 @@ public class Cour {
 	public List<Lesson> getLessons() {
 		return lessons;
 	}
+
+    public void setRecommendedCourses(List<Integer> recommendedCourses) {
+        this.recommendedCourses = new ArrayList<>();
+        for (Integer id : recommendedCourses) {
+            Cour cour = new Cour();
+            cour.setId(id);
+            this.recommendedCourses.add(cour);
+        }
+    }
+
+    public void setLessons(List<Integer> lessons) {
+        this.lessons = new ArrayList<>();
+        for (Integer id : lessons) {
+            Lesson lesson = new Lesson();
+            lesson.setId(id);
+        }
+    }
+
 
 
 }

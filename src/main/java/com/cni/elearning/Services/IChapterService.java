@@ -11,5 +11,5 @@ public interface IChapterService {
     Chapter getChapterById(int id);
     Chapter saveChapter(Chapter chapter);
     void deleteChapter(int id);
-    Chapter updateChapter(Chapter chapter);
+    Chapter updateChapter(Chapter chapter, int id);
 }

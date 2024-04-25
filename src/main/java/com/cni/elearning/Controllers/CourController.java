@@ -19,26 +19,22 @@ public class CourController {
     
     @GetMapping("/")
     public List<Cour> getAllCours(){
-        List<Cour> cours = courService.getAllCours();
-        return cours;
+        return courService.getAllCours();
     }
 
     @GetMapping("/{id}")
     public Cour getCourById(@PathVariable int id){
-        Cour cour = courService.getCourById(id);
-        return cour;
+        return courService.getCourById(id);
     }
 
     @PostMapping("/")
     public Cour saveCour(@RequestBody Cour cour){
-        Cour savedCour = courService.saveCour(cour);
-        return savedCour;
+        return courService.saveCour(cour);
     }
 
-    @PutMapping("/")
-    public Cour updateCour(@RequestBody Cour cour){
-        Cour updatedCour = courService.updateCour(cour);
-        return updatedCour;
+    @PutMapping("/{id}")
+    public Cour updateCour(@RequestBody Cour cour , @PathVariable int id){
+        return courService.updateCour(cour,id);
     }
 
     @DeleteMapping("/{id}")
@@ -48,7 +44,6 @@ public class CourController {
 
     @GetMapping("/lesson/{lessonId}")
     public Cour getCourByLessonId(@PathVariable int lessonId){
-        Cour cour = courService.getCourByLessonId(lessonId);
-        return cour;
+        return courService.getCourByLessonId(lessonId);
     }
 }

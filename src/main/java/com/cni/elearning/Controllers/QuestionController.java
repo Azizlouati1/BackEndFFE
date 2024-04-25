@@ -50,5 +50,8 @@ public class QuestionController {
         questionService.deleteQuestionByQuizId(quizId);
     }
 
-
+    @PutMapping("/{id}")
+    public Question updateQuestion(@PathVariable int id, @RequestBody Question question){
+        return questionService.updateQuestion(question,id);
+    }
 }

@@ -2,6 +2,7 @@ package com.cni.elearning.Services;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -38,9 +39,12 @@ public class LessonServiceImpl implements ILessonService{
         lessonRepository.deleteById(id);
     }
     @Override
-    public Lesson updateLesson(Lesson lesson, int id) {
-        lesson.setId(id);
-        return lessonRepository.save(lesson);
+    public Lesson updateLesson(Lesson lesson , int id){
+        Optional<Lesson> optionalLesson = lessonRepository.findById(id);
+        if (optionalLesson.isPresent()) {
+            return lessonRepository.save(lesson);
+        }
+        throw new RuntimeException("Lesson not found with id: " + id);
     }
     @Override
     public Quiz getQuizByLessonId(int id) {

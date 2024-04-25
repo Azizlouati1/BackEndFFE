@@ -1,6 +1,7 @@
 package com.cni.elearning.Services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,16 @@ public class ChapterServiceImpl implements IChapterService{
     public void deleteChapter(int id) {
         chapterRepository.deleteById(id);
     }
+
+    @Override
+    public Chapter updateChapter(Chapter chapter, int id) {
+        Optional<Chapter> chapterOptional = chapterRepository.findById(id);
+        if (chapterOptional.isPresent()) {
+            return chapterRepository.save(chapter);
+        }
+        throw new RuntimeException("Chapter not found with id: " + id);
+    }
+
     public List<Chapter> getChaptersByLessonId(int LessonId) {
         return chapterRepository.findByLessonId(LessonId);
     }

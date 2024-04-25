@@ -3,6 +3,7 @@ package com.cni.elearning.Services;
 import java.util.List;
 import java.util.Optional;
 
+import com.cni.elearning.Models.Quiz;
 import org.springframework.stereotype.Service;
 
 import com.cni.elearning.Models.Question;
@@ -39,7 +40,14 @@ public class QuestionServiceImpl implements IQuestionService{
     public void deleteQuestionByQuizId(int quizId) {
         questionRepository.deleteByQuizId(quizId);
     }
-
+    @Override
+    public Question updateQuestion( Question question, int id) {
+        Optional<Question> question1 = questionRepository.findById(id);
+        if(question1.isPresent()) {
+            return questionRepository.save(question);
+        }
+        throw new RuntimeException( "Question not found with id "+id);
+    }
    
 
 }

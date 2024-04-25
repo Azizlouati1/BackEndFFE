@@ -79,7 +79,11 @@ public Cour getCourById(int id) {
     }
 
     @Override
-    public Cour updateCour(Cour cour) {
-        return courRepository.save(cour);
+    public Cour updateCour(Cour cour , int id){
+        Optional<Cour> optionalCour = courRepository.findById(id);
+        if (optionalCour.isPresent()) {
+            return courRepository.save(cour);
+        }
+        throw new RuntimeException("Cour not found with id: " + id);
     }
 }

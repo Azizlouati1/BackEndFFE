@@ -35,9 +35,9 @@ public class ChapterController {
         return savedChapter;
     }
 
-    @PutMapping("/")
-    public Chapter updateChapter(@RequestBody Chapter chapter){
-        Chapter updatedChapter = chapterService.updateChapter(chapter);
+    @PutMapping("/{id}")
+    public Chapter updateChapter(@RequestBody Chapter chapter, @PathVariable int id){
+        Chapter updatedChapter = chapterService.updateChapter(chapter,id);
         return updatedChapter;
     }
 

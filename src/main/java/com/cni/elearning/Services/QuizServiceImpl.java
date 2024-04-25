@@ -5,6 +5,7 @@ import com.cni.elearning.Models.Quiz;
 import com.cni.elearning.Models.Question;
 import com.cni.elearning.Repositories.QuizRepository;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 @Service    
@@ -22,8 +23,8 @@ public class QuizServiceImpl implements IQuizService{
         return quizRepository.findAll();
     }
     @Override
-    public Quiz getQuizById(int id) {
-        return quizRepository.findById(id).get();
+    public Optional<Quiz> getQuizById(int id) {
+        return quizRepository.findById(id);
     }
     @Override
     public Quiz saveQuiz(Quiz quiz) {
@@ -44,10 +45,11 @@ public class QuizServiceImpl implements IQuizService{
     }
     @Override
     public  Quiz updateQuiz(int id, Quiz quiz){
-        Quiz existingQuiz = quizRepository.findById(id).get();
-        existingQuiz.setLesson(quiz.getLesson());
-        existingQuiz.setQuestions(quiz.getQuestions());
-        return quizRepository.save(existingQuiz);
+        Optional<Quiz> optionalQuiz = quizRepository.findById(id);
+        if(optionalQuiz.isPresent()){
+            return quizRepository.save(quiz);
+        }
+        throw new RuntimeException("Quiz not found with id " + id);
     }
 
 }

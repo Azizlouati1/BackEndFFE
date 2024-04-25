@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 public class Answer {
 
@@ -14,7 +16,7 @@ public class Answer {
     @Column(nullable = false, length = 1000)
     private String answer;
     @Column(nullable = false)
-    private Boolean isCorrect;
+        private Boolean isCorrect;
     @ManyToOne
     private Question question;
 
@@ -30,29 +32,6 @@ public class Answer {
         super();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public Boolean getIsCorrect() {
-        return isCorrect;
-    }
-
-    public void setIsCorrect(Boolean isCorrect) {
-        this.isCorrect = isCorrect;
-    }
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     public Question getQuestion() {

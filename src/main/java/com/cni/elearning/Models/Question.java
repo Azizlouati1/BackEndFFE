@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.Data;
+
+@Data
 @Entity
 public class Question {
 	
@@ -29,13 +32,6 @@ public class Question {
         super();
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     public Quiz getQuiz() {
@@ -45,21 +41,5 @@ public class Question {
     public void setQuiz(int quizId) {
         this.quiz = new Quiz();
         this.quiz.setId(quizId);
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public List<Answer> getOptions() {
-        return options;
-    }
-
-    public void setOptions(List<Answer> options) {
-        this.options = options;
     }
 }

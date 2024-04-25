@@ -1,7 +1,9 @@
 package com.cni.elearning.Controllers;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.cni.elearning.Services.ILessonService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,11 @@ import com.cni.elearning.Models.Quiz;
 public class QuizController {
 
     private final IQuizService quizService;
+    private final ILessonService lessonService;
 
-    public QuizController(IQuizService quizService) {
+    public QuizController(IQuizService quizService, ILessonService lessonService) {
         this.quizService = quizService;
+        this.lessonService = lessonService;
     }
 
     @GetMapping("/")
@@ -33,8 +37,8 @@ public class QuizController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getQuizById(@PathVariable int id) {
-        Quiz quiz = quizService.getQuizById(id);
-        if (quiz == null) {
+        Optional<Quiz> quiz = quizService.getQuizById(id);
+        if (quiz.isEmpty()) {
             String errorMessage = "Quiz not found with id: " + id;
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
         } else {
@@ -42,30 +46,12 @@ public class QuizController {
         }
     }
     @PostMapping("/")
-    public ResponseEntity<?> addQuiz(@RequestBody Quiz quiz) {
-        try {
-            Quiz newQuiz = quizService.saveQuiz(quiz);
-            return ResponseEntity.ok(newQuiz);
-        } catch (DataIntegrityViolationException e) {
-            // Handle foreign key constraint violation
-            System.out.println("Failed to add quiz. Lesson not found for quiz: " + quiz.getId());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lesson not found for the quiz.", e);
-        } catch (Exception e) {
-            // Handle other unexpected exceptions
-            System.out.println("Failed to add quiz due to unexpected error: " + e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to add quiz", e);
-        }
-
+    public Quiz addQuiz(@RequestBody Quiz quiz) {
+        return quizService.saveQuiz(quiz);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateQuiz(@PathVariable int id, @RequestBody Quiz quiz) {
-        Quiz updatedQuiz = quizService.updateQuiz(id, quiz);
-        if (updatedQuiz == null) {
-            String errorMessage = "Quiz not found with id: " + id;
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
-        } else {
-            return ResponseEntity.ok(updatedQuiz);
-        }
+    public Quiz updateQuiz(@PathVariable int id, @RequestBody Quiz quiz) {
+        return quizService.updateQuiz(id, quiz);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteQuiz(@PathVariable int id) {
