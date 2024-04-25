@@ -22,7 +22,6 @@ public class Chapter {
     @Column(nullable = false, length = 1000)
     private String description;
     @Column(nullable = true)
-    @Lob
     private byte[] video;
     @Column(nullable = true)
     private List<String> coursesContent;

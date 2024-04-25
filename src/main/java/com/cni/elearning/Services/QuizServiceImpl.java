@@ -42,4 +42,12 @@ public class QuizServiceImpl implements IQuizService{
         return quizRepository.findByLessonId(lessonId);
 
     }
+    @Override
+    public  Quiz updateQuiz(int id, Quiz quiz){
+        Quiz existingQuiz = quizRepository.findById(id).get();
+        existingQuiz.setLesson(quiz.getLesson());
+        existingQuiz.setQuestions(quiz.getQuestions());
+        return quizRepository.save(existingQuiz);
+    }
+
 }

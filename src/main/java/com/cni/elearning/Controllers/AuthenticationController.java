@@ -1,7 +1,6 @@
 package com.cni.elearning.Controllers;
 
 import com.cni.elearning.Dtos.JwtAuthenticationResponse;
-import com.cni.elearning.Dtos.RefreshTokenRequest;
 import com.cni.elearning.Dtos.SignInRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +33,5 @@ public class AuthenticationController {
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SignInRequest signInRequest){
         return ResponseEntity.ok(authenticationService.signin(signInRequest));
-    }
-    @PostMapping("/refreshtoken")
-    public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody RefreshTokenRequest refreshTokenRequest){
-        return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
     }
 }

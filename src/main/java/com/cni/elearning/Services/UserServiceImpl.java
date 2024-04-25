@@ -1,5 +1,9 @@
 package com.cni.elearning.Services;
 
+import com.cni.elearning.Models.User;
+
+import java.util.List;
+
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +27,24 @@ public class UserServiceImpl implements IUserService{
             }
         };
     }
-    
+    @Override
+    public User getUserById(int id) {
+        return userRepository.findById(id).get();
+    }
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+    @Override
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
+    }
+    @Override
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).get();
+    }
 }

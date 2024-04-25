@@ -1,6 +1,9 @@
 package com.cni.elearning.Models;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 @Entity
 public class Question {
@@ -33,13 +36,15 @@ public class Question {
     public void setId(int id) {
         this.id = id;
     }
-
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     public Quiz getQuiz() {
         return quiz;
     }
 
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
+    public void setQuiz(int quizId) {
+        this.quiz = new Quiz();
+        this.quiz.setId(quizId);
     }
 
     public String getQuestion() {

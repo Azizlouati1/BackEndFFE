@@ -1,5 +1,6 @@
 package com.cni.elearning;
 
+import com.cni.elearning.Repositories.CourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,18 +11,21 @@ import com.cni.elearning.Models.Role;
 import com.cni.elearning.Models.User;
 import com.cni.elearning.Repositories.UserRepository;
 
+
 @SpringBootApplication
 public class ElearningApplication implements CommandLineRunner{
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+private CourRepository courRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(ElearningApplication.class, args);
 	}
-
-	public void run(String... args){
+	
+	public void run(String... args) {
 		User adminAccount = userRepository.findByRole(Role.ADMIN);
-		if(null == adminAccount){
+		if (null == adminAccount) {
 			User user = new User();
 
 			user.setEmail("admin@gmail.com");
@@ -31,5 +35,5 @@ public class ElearningApplication implements CommandLineRunner{
 			user.setPassword(new BCryptPasswordEncoder().encode("admin"));
 			userRepository.save(user);
 		}
-	};
+	}
 }

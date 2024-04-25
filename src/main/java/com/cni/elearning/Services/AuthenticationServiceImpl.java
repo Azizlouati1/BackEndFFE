@@ -1,7 +1,6 @@
 package com.cni.elearning.Services;
 
 import com.cni.elearning.Dtos.JwtAuthenticationResponse;
-import com.cni.elearning.Dtos.RefreshTokenRequest;
 import com.cni.elearning.Dtos.SignInRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,34 +34,16 @@ public class AuthenticationServiceImpl implements IAuthenticationService{
         user.setFirstname(signUpRequest.getFirstname());
         user.setLastname(signUpRequest.getLastname());
         user.setEmail(signUpRequest.getEmail());
-        user.setRole(Role.USER); 
+        user.setRole(Role.STUDENT);
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         return userRepository.save(user);
     }
     public JwtAuthenticationResponse signin(SignInRequest signInRequest){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
         var user = userRepository.findByEmail(signInRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("Email not found"));
-        var jwt = jwtService.generateToken(user);
-        var refreshtoken = jwtService.generateRefreshToken(new HashMap<>(),user);
-
+        var jwt = jwtService.generateToken(user,user.getRole());
         JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
         jwtAuthenticationResponse.setToken(jwt);
-        jwtAuthenticationResponse.setRefreshToken(refreshtoken);
         return jwtAuthenticationResponse;
-    }
-    public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest){
-        String userEmail = jwtService.extractUsername(refreshTokenRequest.getToken());
-        User user = userRepository.findByEmail(userEmail).orElseThrow();
-        if(jwtService.isTokenValid(refreshTokenRequest.getToken(), user)){
-            var jwt = jwtService.generateToken(user);
-
-
-            JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
-            jwtAuthenticationResponse.setToken(jwt);
-            jwtAuthenticationResponse.setRefreshToken(refreshTokenRequest.getToken());
-            return jwtAuthenticationResponse;
-
-        }
-        return null;
     }
 }

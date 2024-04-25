@@ -12,6 +12,7 @@ public interface IQuizService {
     void deleteQuiz(int id);
     List<Question> getQuestionsByQuizId(int quizId);
     Quiz getQuizByLessonId(int lessonId);
+    Quiz updateQuiz(int id, Quiz quiz);
 
     
 }
