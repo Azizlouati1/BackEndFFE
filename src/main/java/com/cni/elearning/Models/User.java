@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
-@Entity(name = "users") // Specify the table name explicitly
+@Entity(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -32,6 +32,9 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(nullable = true)
+    private byte[] image;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

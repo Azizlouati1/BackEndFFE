@@ -2,6 +2,7 @@ package com.cni.elearning.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -32,8 +33,8 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(request -> request.requestMatchers("api/v1/auth/**")
         .permitAll()
-        .requestMatchers("api/**").hasAnyAuthority(Role.ADMIN.name())
-        .requestMatchers("api/**").hasAnyAuthority(Role.STUDENT.name())
+                .requestMatchers(HttpMethod.GET,"api/cours/").permitAll()
+        .requestMatchers("api/**").hasAnyAuthority(Role.STUDENT.name(),Role.ADMIN.name(),Role.INSTRUCTOR.name())
         .anyRequest().authenticated())
         .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

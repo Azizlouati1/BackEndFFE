@@ -32,7 +32,7 @@ private CourRepository courRepository;
 			user.setFirstname("Admin");
 			user.setLastname("Admin");
 			user.setRole(Role.ADMIN);
-			user.setPassword(new BCryptPasswordEncoder().encode("admin"));
+			user.setPassword(new BCryptPasswordEncoder().encode("admin123"));
 			userRepository.save(user);
 		}
 	}

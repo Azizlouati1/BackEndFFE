@@ -36,6 +36,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService{
         user.setEmail(signUpRequest.getEmail());
         user.setRole(Role.STUDENT);
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setImage(signUpRequest.getImage());
         return userRepository.save(user);
     }
     public JwtAuthenticationResponse signin(SignInRequest signInRequest){
