@@ -16,18 +16,18 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-@ManyToOne
+    @ManyToOne
     private Cour cour;
     @Column(nullable = false, length = 100)
     private String title;
     @Column(nullable = false, length = 1000)
     private String description;
-    
+
     @Column(nullable = true )
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL)
     private List<Chapter> chapters;
 
-    @OneToMany(mappedBy = "lesson")
+    @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL)
     private List<Quiz> quizzes;
 
     public Lesson(int id, Cour cour, String title, String description, List<Chapter> chapters, List<Quiz> quizzes) {
@@ -39,9 +39,9 @@ public class Lesson {
         this.chapters = chapters;
         this.quizzes = quizzes;
     }
-    
+
     public Lesson () {
-    	super();
+        super();
     }
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -65,20 +65,20 @@ public class Lesson {
             Chapter chapter = new Chapter();
             chapter.setId(id);
             this.chapters.add(chapter);
-    }
         }
+    }
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     public  List<Quiz> getQuizzes(){
         return quizzes;
     }
     public void setQuizzes(List<Integer> quizzes) {
-    this.quizzes = new ArrayList<>();
-    for ( Integer id : quizzes) {
-        Quiz quiz = new Quiz();
-        quiz.setId(id);
-        this.quizzes.add(quiz);
-    }
+        this.quizzes = new ArrayList<>();
+        for ( Integer id : quizzes) {
+            Quiz quiz = new Quiz();
+            quiz.setId(id);
+            this.quizzes.add(quiz);
+        }
     }
 
 }

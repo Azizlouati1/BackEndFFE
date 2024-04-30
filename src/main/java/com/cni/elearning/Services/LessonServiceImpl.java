@@ -12,7 +12,7 @@ import com.cni.elearning.Models.Quiz;
 import com.cni.elearning.Repositories.LessonRepository;
 @Service
 public class LessonServiceImpl implements ILessonService{
-    
+
     private final LessonRepository lessonRepository;
     private final IChapterService chapterService;
     private final IQuizService quizService;
@@ -53,5 +53,9 @@ public class LessonServiceImpl implements ILessonService{
     @Override
     public List<Chapter> getChaptersByLessonId(int id) {
         return chapterService.getChaptersByLessonId(id);
+    }
+    @Override
+    public String getLessonNameById(int id) {
+        return lessonRepository.findById(id).get().getTitle();
     }
 }

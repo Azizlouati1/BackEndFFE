@@ -22,7 +22,7 @@ public class Quiz {
     @Column(nullable = false, length = 1000)
     private String description;
     @Column(nullable = true)
-    @OneToMany(mappedBy = "quiz")
+    @OneToMany(mappedBy = "quiz",cascade = CascadeType.ALL)
     private List<Question> questions;
     @Column(nullable = true)
     private int passingScore;
@@ -53,13 +53,6 @@ public class Quiz {
     public void setLesson(int lessonId) {
         this.lesson = new Lesson();
         this.lesson.setId(lessonId);
-    }
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
     }
 
 }

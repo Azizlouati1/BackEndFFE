@@ -15,4 +15,6 @@ public interface ILessonService {
     void deleteLesson(int id);
     Quiz getQuizByLessonId(int id); 
     Lesson updateLesson(Lesson lesson, int id);
+
+    String getLessonNameById(int id);
 }

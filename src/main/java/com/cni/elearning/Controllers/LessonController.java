@@ -8,6 +8,9 @@ import com.cni.elearning.Models.Chapter;
 import com.cni.elearning.Models.Lesson;
 import com.cni.elearning.Models.Quiz;
 import com.cni.elearning.Services.ILessonService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/lessons")
@@ -59,6 +62,10 @@ public class LessonController {
         List<Chapter> chapters = lessonService.getChaptersByLessonId(lessonId);
         return chapters;
     }
+    @GetMapping("/{id}/name")
+    public String getLessonNameById(@PathVariable int id){
+        return lessonService.getLessonNameById(id);
+    }
 
-    
+
 }

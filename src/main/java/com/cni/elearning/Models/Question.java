@@ -10,14 +10,14 @@ import lombok.Data;
 @Data
 @Entity
 public class Question {
-	
-	@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
     private Quiz quiz;
     private String question;
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL)
     private List<Answer> options;
 
     public Question(int id, Quiz quiz, String question, List<Answer> options) {

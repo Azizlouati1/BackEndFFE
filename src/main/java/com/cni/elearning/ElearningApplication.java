@@ -1,6 +1,5 @@
 package com.cni.elearning;
 
-import com.cni.elearning.Repositories.CourRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,11 +17,10 @@ public class ElearningApplication implements CommandLineRunner{
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-private CourRepository courRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(ElearningApplication.class, args);
 	}
-	
+
 	public void run(String... args) {
 		User adminAccount = userRepository.findByRole(Role.ADMIN);
 		if (null == adminAccount) {

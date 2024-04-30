@@ -2,13 +2,14 @@ package com.cni.elearning.Models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.cni.elearning.Repositories.InstructorRepository;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 @Getter
@@ -31,67 +32,51 @@ public class Cour {
     private Boolean premium;
     @Column(nullable = true )
     private String recommendedLevel;
-	@ManyToMany
-    @JoinTable(name = "recommended_courses",
-            joinColumns = @JoinColumn(name = "cour_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Cour> recommendedCourses;
     @Column(nullable = true )
-    @OneToMany(mappedBy = "cour")
+    @OneToMany(mappedBy = "cour",cascade = CascadeType.ALL)
     private List<Lesson> lessons;
     @Column(nullable = true )
     @Lob
     private byte[] image;
 
+    @ManyToOne
+    @JoinColumn(name = "instructorId")
+    private Instructor instructor = new Instructor();
 
-	public Cour(int id, String title, String description, String category, int difficulty, Boolean premium,
-			String recommendedLevel, List<Cour> recommendedCourses, List<Lesson> lessons, byte[] image) {
-		super();
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.category = category;
-		this.difficulty = difficulty;
-		this.premium = premium;
-		this.recommendedLevel = recommendedLevel;
-		this.recommendedCourses = recommendedCourses;
-		this.lessons = lessons;
+
+    public Cour(int id, String title, String description, String category, int difficulty, Boolean premium,
+                String recommendedLevel, List<Lesson> lessons, byte[] image, Instructor instructor) {
+        super();
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.difficulty = difficulty;
+        this.premium = premium;
+        this.recommendedLevel = recommendedLevel;
+        this.lessons = lessons;
         this.image = image;
-	}
-	public Cour() {
-		super();
-	}
-
-
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-	@JsonIdentityReference(alwaysAsId = true)
-	public List<Cour> getRecommendedCourses() {
-		return recommendedCourses;
-	}
-
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-	@JsonIdentityReference(alwaysAsId = true)
-	public List<Lesson> getLessons() {
-		return lessons;
-	}
-
-    public void setRecommendedCourses(List<Integer> recommendedCourses) {
-        this.recommendedCourses = new ArrayList<>();
-        for (Integer id : recommendedCourses) {
-            Cour cour = new Cour();
-            cour.setId(id);
-            this.recommendedCourses.add(cour);
-        }
+        this.instructor = instructor;
     }
-
-    public void setLessons(List<Integer> lessons) {
-        this.lessons = new ArrayList<>();
-        for (Integer id : lessons) {
-            Lesson lesson = new Lesson();
-            lesson.setId(id);
-        }
+    public Cour() {
+        super();
     }
 
 
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    public List<Lesson> getLessons() {
+        return lessons;
+    }
+
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor( int id ){
+        this.instructor.setId(id);
+    }
 }

@@ -12,6 +12,7 @@ public interface ICourService {
     Cour saveCour(Cour cour);
     Cour updateCour(Cour cour, int id);
     void deleteCour(int id);
+    List<Cour> getCourByInstructorId(int id);
 
-    
+    List<Cour> getCourByInstructorId2(int id);
 }

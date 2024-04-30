@@ -46,4 +46,8 @@ public class CourController {
     public Cour getCourByLessonId(@PathVariable int lessonId){
         return courService.getCourByLessonId(lessonId);
     }
+    @GetMapping("/instructorid/{id}")
+    public List<Cour> getCourByInstructorId(@PathVariable int id){
+        return courService.getCourByInstructorId2(id);
+    }
 }

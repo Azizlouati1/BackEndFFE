@@ -36,6 +36,21 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private byte[] image;
 
+    public User(String firstname, String lastname, String email, String password, Role role , byte[] image) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.image = image;
+
+    }
+
+    public User() {
+
+    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
