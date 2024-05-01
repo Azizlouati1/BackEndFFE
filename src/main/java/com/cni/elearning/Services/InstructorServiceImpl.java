@@ -3,6 +3,7 @@ package com.cni.elearning.Services;
 import com.cni.elearning.Models.Instructor;
 import com.cni.elearning.Models.Role;
 import com.cni.elearning.Repositories.InstructorRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +11,10 @@ import java.util.Optional;
 @Service
 public class InstructorServiceImpl implements IInstructorService {
     public final InstructorRepository instructorRepository;
-
-    public InstructorServiceImpl(InstructorRepository instructorRepository) {
+    private final PasswordEncoder passwordEncoder;
+    public InstructorServiceImpl(InstructorRepository instructorRepository, PasswordEncoder passwordEncoder) {
         this.instructorRepository = instructorRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -27,6 +29,7 @@ public class InstructorServiceImpl implements IInstructorService {
     @Override
     public Instructor addInstructor(Instructor instructor){
         instructor.setRole(Role.INSTRUCTOR);
+        instructor.setPassword(passwordEncoder.encode(instructor.getPassword()));
         return instructorRepository.save(instructor);
     }
 
