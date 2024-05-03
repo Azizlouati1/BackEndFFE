@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+@Setter
 @Entity(name = "instructors")
 public class Instructor extends User {
 
@@ -47,28 +49,16 @@ public class Instructor extends User {
     public String getSpeciality() {
         return speciality;
     }
-    public void setSpeciality(String speciality) {
-        this.speciality = speciality;
-    }
+
     public String getAddress() {
         return address;
     }
-    public void setAddress(String address) {
-        this.address = address;
-    }
+
     public String getPhone() {
         return phone;
     }
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+
     public String getBiography() {
         return biography;
-    }
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
-    public void setCourses(List<Cour> courses) {
-        this.courses = courses;
     }
 }

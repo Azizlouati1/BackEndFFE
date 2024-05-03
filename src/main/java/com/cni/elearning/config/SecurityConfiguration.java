@@ -19,6 +19,8 @@ import com.cni.elearning.Models.Role;
 import com.cni.elearning.Services.IUserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.filter.RequestContextFilter;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,11 +31,12 @@ public class SecurityConfiguration {
     private final IUserService userService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, RequestContextFilter requestContextFilter) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(request -> request.requestMatchers("api/v1/auth/**")
         .permitAll()
                 .requestMatchers(HttpMethod.GET,"api/cours/").permitAll()
+                .requestMatchers(HttpMethod.POST,"api/instructors/").permitAll()
         .requestMatchers("api/**").hasAnyAuthority(Role.STUDENT.name(),Role.ADMIN.name(),Role.INSTRUCTOR.name())
         .anyRequest().authenticated())
         .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

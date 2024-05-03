@@ -45,4 +45,12 @@ public class InstructorServiceImpl implements IInstructorService {
     public void deleteInstuctor(int id){
         instructorRepository.deleteById(id);
     }
+    @Override
+    public Instructor updateInstructor(Instructor instructor, int id) {
+        Optional<Instructor> instructorOptional = instructorRepository.findById(id);
+        if (instructorOptional.isPresent()) {
+            return instructorRepository.save(instructor);
+        }
+        throw new RuntimeException("Instructor not found with id: " + id);
+    }
 }

@@ -31,5 +31,9 @@ public class InstructorController {
     public void deleteInstructor(@PathVariable int id) {
         instructorService.deleteInstuctor(id);
     }
+    @PutMapping("/{id}")
+    public Instructor updateInstructor(@RequestBody Instructor instructor, @PathVariable int id) {
+        return instructorService.updateInstructor(instructor, id);
+    }
 
 }

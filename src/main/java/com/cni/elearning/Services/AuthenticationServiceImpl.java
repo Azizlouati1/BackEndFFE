@@ -2,7 +2,6 @@ package com.cni.elearning.Services;
 
 import com.cni.elearning.Dtos.JwtAuthenticationResponse;
 import com.cni.elearning.Dtos.SignInRequest;
-import com.cni.elearning.Models.Instructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

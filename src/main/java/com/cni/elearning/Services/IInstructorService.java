@@ -15,4 +15,6 @@ public interface IInstructorService {
     Instructor findInstructorById2(int id);
 
     void deleteInstuctor(int id);
+
+    Instructor updateInstructor(Instructor instructor, int id);
 }
