@@ -1,11 +1,16 @@
 package com.cni.elearning.Controllers;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.cni.elearning.Models.Chapter;
 import com.cni.elearning.Services.IChapterService;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/chapters")
@@ -51,5 +56,4 @@ public class ChapterController {
         List<Chapter> chapters = chapterService.getChaptersByLessonId(lessonId);
         return chapters;
     }
-    
 }

@@ -1,5 +1,6 @@
 package com.cni.elearning.Services;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cni.elearning.Models.Chapter;
 import com.cni.elearning.Repositories.ChapterRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ChapterServiceImpl implements IChapterService{
@@ -49,4 +51,5 @@ public class ChapterServiceImpl implements IChapterService{
         return chapterRepository.save(chapter);
     }
 
-}
+    }
+

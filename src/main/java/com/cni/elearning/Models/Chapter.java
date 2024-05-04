@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.swing.plaf.multi.MultiFileChooserUI;
 
 @Data
 @Entity
@@ -23,9 +26,11 @@ public class Chapter {
     private String title;
     @Column(nullable = false, length = 1000)
     private String description;
+    @Lob
     @Column(nullable = true)
     private byte[] video;
     @Column(nullable = true)
+    @ElementCollection
     private List<String> coursesContent;
 
     public Chapter(int id, Lesson lesson, String title, String description, byte[] video, List<String> coursesContent) {
