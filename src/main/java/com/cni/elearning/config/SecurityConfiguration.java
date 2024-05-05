@@ -15,8 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.cni.elearning.Models.Role;
-import com.cni.elearning.Services.IUserService;
+import com.cni.elearning.Models.Users.Role;
+import com.cni.elearning.Services.Users.IUserService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.filter.RequestContextFilter;

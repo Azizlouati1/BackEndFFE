@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.cni.elearning.Services.IJWTService;
-import com.cni.elearning.Services.IUserService;
+import com.cni.elearning.Services.Security.IJWTService;
+import com.cni.elearning.Services.Users.IUserService;
 
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;

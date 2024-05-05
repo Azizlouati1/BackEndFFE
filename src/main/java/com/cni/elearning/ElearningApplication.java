@@ -6,9 +6,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.cni.elearning.Models.Role;
-import com.cni.elearning.Models.User;
-import com.cni.elearning.Repositories.UserRepository;
+import com.cni.elearning.Models.Users.Role;
+import com.cni.elearning.Models.Users.User;
+import com.cni.elearning.Repositories.Users.UserRepository;
 
 
 @SpringBootApplication
