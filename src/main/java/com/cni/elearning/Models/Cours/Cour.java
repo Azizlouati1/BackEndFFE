@@ -2,14 +2,19 @@ package com.cni.elearning.Models.Cours;
 
 import java.util.List;
 
+import com.cni.elearning.Models.FeedBacks.FeedBack;
 import com.cni.elearning.Models.Users.Instructor;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -41,26 +46,8 @@ public class Cour {
     @JoinColumn(name = "instructorId")
     private Instructor instructor = new Instructor();
 
-
-    public Cour(int id, String title, String description, String category, int difficulty, Boolean premium,
-                String recommendedLevel, List<Lesson> lessons, byte[] image, Instructor instructor) {
-        super();
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.category = category;
-        this.difficulty = difficulty;
-        this.premium = premium;
-        this.recommendedLevel = recommendedLevel;
-        this.lessons = lessons;
-        this.image = image;
-        this.instructor = instructor;
-    }
-    public Cour() {
-        super();
-    }
-
-
+    @OneToMany(mappedBy = "cour",cascade = CascadeType.ALL)
+    private List<FeedBack> feedBacks;
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)

@@ -7,7 +7,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class Lesson {
@@ -29,19 +34,7 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL)
     private List<Quiz> quizzes;
 
-    public Lesson(int id, Cour cour, String title, String description, List<Chapter> chapters, List<Quiz> quizzes) {
-        super();
-        this.id = id;
-        this.cour = cour;
-        this.title = title;
-        this.description = description;
-        this.chapters = chapters;
-        this.quizzes = quizzes;
-    }
 
-    public Lesson () {
-        super();
-    }
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)

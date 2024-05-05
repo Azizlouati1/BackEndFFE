@@ -4,8 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class Answer {
@@ -20,17 +24,6 @@ public class Answer {
     @ManyToOne
     private Question question;
 
-    public Answer(int id, String answer, Boolean isCorrect, Question question) {
-        super();
-        this.id = id;
-        this.answer = answer;
-        this.isCorrect = isCorrect;
-        this.question = question;
-    }
-
-    public Answer() {
-        super();
-    }
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)

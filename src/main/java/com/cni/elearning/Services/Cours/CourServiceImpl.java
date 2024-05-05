@@ -16,7 +16,6 @@ public class CourServiceImpl implements ICourService {
 
     private final CourRepository courRepository;
 
-    private ILessonService lessonService;
 
     private final  InstructorRepository instructorRepository;
 

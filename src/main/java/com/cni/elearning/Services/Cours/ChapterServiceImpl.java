@@ -3,6 +3,7 @@ package com.cni.elearning.Services.Cours;
 import java.util.List;
 import java.util.Optional;
 
+import com.cni.elearning.Models.Cours.Lesson;
 import org.springframework.stereotype.Service;
 
 import com.cni.elearning.Models.Cours.Chapter;
@@ -26,7 +27,12 @@ public class ChapterServiceImpl implements IChapterService {
     }
 
     public Chapter saveChapter(Chapter chapter) {
-        return chapterRepository.save(chapter);
+        Lesson lesson = chapter.getLesson();
+        if (lesson != null) {
+            return chapterRepository.save(chapter);
+        }
+        return null;
+
     }
 
     public void deleteChapter(int id) {
@@ -36,6 +42,9 @@ public class ChapterServiceImpl implements IChapterService {
     @Override
     public Chapter updateChapter(Chapter chapter, int id) {
         Optional<Chapter> chapterOptional = chapterRepository.findById(id);
+        if (id != chapter.getId() ){
+            throw new RuntimeException("Write a valid Chapter ID " + id);
+        }
         if (chapterOptional.isPresent()) {
             return chapterRepository.save(chapter);
         }

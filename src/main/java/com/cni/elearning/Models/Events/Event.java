@@ -31,7 +31,7 @@ public class Event {
     private Date endDate;
     @Column( nullable = false)
     private String question;
-    @OneToMany
+    @OneToMany(mappedBy = "event",cascade = CascadeType.ALL)
     private List<Participant> participants;
 
 }

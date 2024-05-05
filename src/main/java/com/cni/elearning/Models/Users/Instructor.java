@@ -6,14 +6,19 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
+@Getter
 @Entity(name = "instructors")
 public class Instructor extends User {
 
@@ -31,7 +36,7 @@ public class Instructor extends User {
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(mappedBy = "instructor",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
     private List<Chat> chats = new ArrayList<>();
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -39,31 +44,5 @@ public class Instructor extends User {
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
     private List<Cour> courses = new ArrayList<>();
 
-    public Instructor(String firstname, String lastname, String email, String password, byte[] image, Role role, String speciality, String address, String phone, String biography) {
-        super(firstname, lastname, email, password, role, image);
-        this.speciality = speciality;
-        this.address = address;
-        this.phone = phone;
-        this.biography = biography;
-    }
 
-    public Instructor() {
-        super();
-    }
-
-    public String getSpeciality() {
-        return speciality;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getBiography() {
-        return biography;
-    }
 }

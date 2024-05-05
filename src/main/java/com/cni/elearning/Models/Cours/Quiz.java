@@ -6,8 +6,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 public class Quiz {
@@ -29,20 +33,6 @@ public class Quiz {
     @Column(nullable = true)
     private int score;
 
-    public Quiz(int id, Lesson lesson, String title, String description, List<Question> questions, int passingScore, int score) {
-        super();
-        this.id = id;
-        this.lesson = lesson;
-        this.title = title;
-        this.description = description;
-        this.questions = questions;
-        this.passingScore = passingScore;
-        this.score = score;
-    }
-
-    public Quiz() {
-        super();
-    }
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)

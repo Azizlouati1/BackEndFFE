@@ -28,7 +28,10 @@ public class QuizServiceImpl implements IQuizService {
     }
     @Override
     public Quiz saveQuiz(Quiz quiz) {
-        return quizRepository.save(quiz);
+        if (quiz.getLesson() != null) {
+            return quizRepository.save(quiz);
+        }
+        return null;
     }
     @Override
     public void deleteQuiz(int id) {
