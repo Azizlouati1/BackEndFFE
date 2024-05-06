@@ -3,6 +3,7 @@ package com.cni.elearning.Models.Cours;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cni.elearning.Models.Progress.Progress;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -34,6 +35,8 @@ public class Lesson {
     @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL)
     private List<Quiz> quizzes;
 
+    @ManyToMany(mappedBy ="completedLessons")
+    private List<Progress> progresses = new ArrayList<>();
 
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -70,6 +73,19 @@ public class Lesson {
             Quiz quiz = new Quiz();
             quiz.setId(id);
             this.quizzes.add(quiz);
+        }
+    }
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    public List<Progress> getProgresses(){
+        return progresses;
+    }
+    public void setProgresses(List<Integer> progresses) {
+        this.progresses = new ArrayList<>();
+        for ( Integer id : progresses) {
+            Progress progress = new Progress();
+            progress.setId(id);
+            this.progresses.add(progress);
         }
     }
 
