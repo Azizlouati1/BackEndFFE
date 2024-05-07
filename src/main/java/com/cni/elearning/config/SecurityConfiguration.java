@@ -38,6 +38,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.GET,"api/cours/").permitAll()
                 .requestMatchers(HttpMethod.GET,"api/cours/{id}").permitAll()
                 .requestMatchers(HttpMethod.POST,"api/instructors/").permitAll()
+                .requestMatchers(HttpMethod.POST,"api/students/").permitAll()
         .requestMatchers("api/**").hasAnyAuthority(Role.STUDENT.name(),Role.ADMIN.name(),Role.INSTRUCTOR.name())
         .anyRequest().authenticated())
         .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

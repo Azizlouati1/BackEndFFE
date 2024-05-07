@@ -22,11 +22,12 @@ public class JWTServiceImpl implements IJWTService {
         return Keys.hmacShaKeyFor(key);
     }
 
-    public String generateToken(UserDetails userDetails, Role role) {
+    public String generateToken(UserDetails userDetails, Role role , int Id) {
 
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("role",role)
+                .claim("Id",Id)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // Token expires in 24 hours
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)

@@ -40,7 +40,7 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     public JwtAuthenticationResponse signin(SignInRequest signInRequest){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
         var user = userRepository.findByEmail(signInRequest.getEmail()).orElseThrow(() -> new IllegalArgumentException("Email not found"));
-        var jwt = jwtService.generateToken(user,user.getRole());
+        var jwt = jwtService.generateToken(user,user.getRole(),user.getId());
         JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse();
         jwtAuthenticationResponse.setToken(jwt);
         return jwtAuthenticationResponse;

@@ -3,6 +3,7 @@ package com.cni.elearning.Models.Cours;
 import java.util.List;
 
 import com.cni.elearning.Models.FeedBacks.FeedBack;
+import com.cni.elearning.Models.Progress.Progress;
 import com.cni.elearning.Models.Users.Instructor;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -48,6 +49,9 @@ public class Cour {
 
     @OneToMany(mappedBy = "cour",cascade = CascadeType.ALL)
     private List<FeedBack> feedBacks;
+
+    @OneToMany(mappedBy = "cour",cascade = CascadeType.ALL)
+    private List<Progress> progresses;
 
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)

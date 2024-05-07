@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public interface    IJWTService {
 
-    String generateToken(UserDetails userdetails , Role role);
+    String generateToken(UserDetails userdetails , Role role , int Id);
 
     String extractUsername(String token);
     

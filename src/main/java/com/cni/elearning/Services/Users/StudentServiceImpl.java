@@ -3,6 +3,7 @@ package com.cni.elearning.Services.Users;
 
 import com.cni.elearning.Models.Users.Student;
 import com.cni.elearning.Models.Users.Role;
+import com.cni.elearning.Repositories.Levelling.LevelRepository;
 import com.cni.elearning.Repositories.Users.StudentRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,13 @@ public class StudentServiceImpl implements IStudentService {
     
         public final StudentRepository studentRepository;
         private final PasswordEncoder passwordEncoder;
-        public StudentServiceImpl(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
+    private final LevelRepository levelRepository;
+
+    public StudentServiceImpl(StudentRepository studentRepository, PasswordEncoder passwordEncoder, LevelRepository levelRepository) {
             this.studentRepository = studentRepository;
             this.passwordEncoder = passwordEncoder;
-        }
+        this.levelRepository = levelRepository;
+    }
 
         @Override
         public List<Student> findAllStudents(){
