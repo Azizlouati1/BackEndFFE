@@ -13,4 +13,5 @@ public interface IChapterService {
     void deleteChapter(int id);
     Chapter updateChapter(Chapter chapter, int id);
 
+    String getChapterNameById(int id);
 }

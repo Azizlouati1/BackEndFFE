@@ -51,4 +51,8 @@ public class ChapterController {
         List<Chapter> chapters = chapterService.getChaptersByLessonId(lessonId);
         return chapters;
     }
+    @GetMapping("/{id}/name")
+    public String getChapterName(@PathVariable int id){
+        return chapterService.getChapterNameById(id);
+    }
 }

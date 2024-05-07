@@ -15,5 +15,6 @@ public interface IQuizService {
     Quiz getQuizByLessonId(int lessonId);
     Quiz updateQuiz(int id, Quiz quiz);
 
-    
+
+    String getQuizNameById(int id);
 }

@@ -22,6 +22,11 @@ public class ChapterServiceImpl implements IChapterService {
         return chapterRepository.findAll();
     }
 
+    @Override
+    public List<Chapter> getChaptersByLessonId(int LessonId) {
+        return chapterRepository.findByLessonId(LessonId);
+    }
+
     public Chapter getChapterById(int id) {
         return chapterRepository.findById(id).get();
     }
@@ -50,13 +55,9 @@ public class ChapterServiceImpl implements IChapterService {
         }
         throw new RuntimeException("Chapter not found with id: " + id);
     }
-
-    public List<Chapter> getChaptersByLessonId(int LessonId) {
-        return chapterRepository.findByLessonId(LessonId);
+    @Override
+    public String getChapterNameById(int id) {
+        return chapterRepository.findById(id).get().getTitle();
     }
-    public Chapter updateChapter(Chapter chapter) {
-        return chapterRepository.save(chapter);
-    }
-
     }
 

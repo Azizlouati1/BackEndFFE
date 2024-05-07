@@ -31,13 +31,35 @@ public class FeedBackServiceImpl implements IFeedBackService {
     public FeedBack saveFeedBack(FeedBack feedBack) {
         Student studentSaved = studentRepository.findById(feedBack.getStudent().getId()).orElse(null);
         Cour courSaved = courRepository.findById(feedBack.getCour().getId()).orElse(null);
-        assert studentSaved != null;
-        assert courSaved != null;
-        FeedBack feedbackSaved = feedBackRepository.findByStudentIdAndCourId(studentSaved.getId(), courSaved.getId());
-        if (feedbackSaved == null) {
-            return feedBackRepository.save(feedBack);
+
+        if (studentSaved != null && courSaved != null) {
+            FeedBack feedbackSaved = feedBackRepository.findByStudentIdAndCourId(studentSaved.getId(), courSaved.getId());
+
+            if (feedbackSaved == null) {
+                feedBackRepository.save(feedBack);
+                List<Float> ratings = feedBackRepository.findRatingByCourId(courSaved.getId());
+                float ratingAVG = calculateAverageRating(ratings);
+                courSaved.setRating(ratingAVG);
+                courRepository.save(courSaved);
+                return feedBack;
+            } else {
+                throw new RuntimeException("Feedback already exists.");
+            }
+        } else {
+            throw new RuntimeException("Student or Cour not found.");
         }
-        throw new RuntimeException("Already have a feedback ");
+    }
+
+    private float calculateAverageRating(List<Float> ratings) {
+        if (ratings.isEmpty()) {
+            return 0.0f;
+        }
+
+        float total = 0;
+        for (float rating : ratings) {
+            total += rating;
+        }
+        return total / ratings.size();
     }
 
     @Override
@@ -47,13 +69,26 @@ public class FeedBackServiceImpl implements IFeedBackService {
     }
     @Override
     public void deleteFeedBack(int id) {
+        FeedBack feedBack = feedBackRepository.findById(id).orElse(null);
+        Cour courSaved = courRepository.findById(feedBack.getCour().getId()).orElse(null);
         feedBackRepository.deleteById(id);
+        List<Float> ratings = feedBackRepository.findRatingByCourId(courSaved.getId());
+        float ratingAVG = calculateAverageRating(ratings);
+        courSaved.setRating(ratingAVG);
+        courRepository.save(courSaved);
+
     }
     @Override
     public FeedBack updateFeedBack(FeedBack feedBack, int id) {
         Optional<FeedBack> feedBack1 = feedBackRepository.findById(id);
-        if(feedBack1.isPresent()) {
-            return feedBackRepository.save(feedBack);
+        Cour courSaved = courRepository.findById(feedBack.getCour().getId()).orElse(null);
+        if(feedBack1.isPresent() && feedBack.getId() == feedBack1.get().getId()) {
+           feedBackRepository.save(feedBack);
+            List<Float> ratings = feedBackRepository.findRatingByCourId(courSaved.getId());
+            float ratingAVG = calculateAverageRating(ratings);
+            courSaved.setRating(ratingAVG);
+            courRepository.save(courSaved);
+            return feedBack;
         }
         throw new RuntimeException( "FeedBack not found with id "+id);
     }

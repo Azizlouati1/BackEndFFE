@@ -54,5 +54,9 @@ public class QuizServiceImpl implements IQuizService {
         }
         throw new RuntimeException("Quiz not found with id " + id);
     }
+    @Override
+    public String getQuizNameById(int id) {
+        return quizRepository.findById(id).get().getTitle();
+    }
 
 }
