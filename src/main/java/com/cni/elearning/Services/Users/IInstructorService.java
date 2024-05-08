@@ -1,5 +1,6 @@
 package com.cni.elearning.Services.Users;
 
+import com.cni.elearning.Models.Cours.Cour;
 import com.cni.elearning.Models.Users.Instructor;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface IInstructorService {
     void deleteInstuctor(int id);
 
     Instructor updateInstructor(Instructor instructor, int id);
+
+    List<Cour> getCourByInstructorId(int id);
 }

@@ -1,6 +1,7 @@
 package com.cni.elearning.Services.Users;
 
 
+import com.cni.elearning.Models.Levelling.Level;
 import com.cni.elearning.Models.Users.Student;
 import com.cni.elearning.Models.Users.Role;
 import com.cni.elearning.Repositories.Levelling.LevelRepository;
@@ -36,7 +37,14 @@ public class StudentServiceImpl implements IStudentService {
         public Student addStudent(Student student){
             student.setRole(Role.STUDENT);
             student.setPassword(passwordEncoder.encode(student.getPassword()));
-            return studentRepository.save(student);
+            studentRepository.save(student);
+            String emailSend = student.getEmail();
+            Student studentSaved = studentRepository.findByEmail(emailSend);
+            Level level = new Level();
+            int StudentId = studentSaved.getId();
+            level.setStudent(StudentId);
+            levelRepository.save(level);
+            return studentRepository.findById(StudentId).orElse(null);
         }
 
         @Override

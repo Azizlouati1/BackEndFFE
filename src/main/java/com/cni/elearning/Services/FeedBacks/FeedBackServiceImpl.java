@@ -77,7 +77,7 @@ public class FeedBackServiceImpl implements IFeedBackService {
         courSaved.setRating(ratingAVG);
         courRepository.save(courSaved);
 
-    }
+    } 
     @Override
     public FeedBack updateFeedBack(FeedBack feedBack, int id) {
         Optional<FeedBack> feedBack1 = feedBackRepository.findById(id);

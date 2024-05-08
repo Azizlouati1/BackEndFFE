@@ -1,5 +1,6 @@
 package com.cni.elearning.Controllers.Users;
 
+import com.cni.elearning.Models.Cours.Cour;
 import com.cni.elearning.Models.Users.Instructor;
 import com.cni.elearning.Services.Users.IInstructorService;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,10 @@ public class InstructorController {
     @PutMapping("/{id}")
     public Instructor updateInstructor(@RequestBody Instructor instructor, @PathVariable int id) {
         return instructorService.updateInstructor(instructor, id);
+    }
+    @GetMapping("cour/{id}")
+    public List<Cour> getCourInstructor(@PathVariable int id) {
+        return instructorService.getCourByInstructorId(id);
     }
 
 }
