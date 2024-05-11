@@ -46,7 +46,7 @@ public class Cour {
 
     @ManyToOne
     @JoinColumn(name = "instructorId")
-    private Instructor instructor = new Instructor();
+    private Instructor instructor;
 
     @OneToMany(mappedBy = "cour",cascade = CascadeType.ALL)
     private List<FeedBack> feedBacks;
@@ -67,6 +67,8 @@ public class Cour {
     }
 
     public void setInstructor( int id ){
-        this.instructor.setId(id);
+        Instructor instructor = new Instructor();
+        instructor.setId(id);
+        this.instructor = instructor;
     }
 }

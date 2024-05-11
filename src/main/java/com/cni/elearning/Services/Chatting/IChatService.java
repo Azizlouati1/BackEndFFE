@@ -2,12 +2,14 @@ package com.cni.elearning.Services.Chatting;
 
 import java.util.List;
 
+import com.cni.elearning.Dtos.ChatDTO;
 import com.cni.elearning.Models.Chatting.Chat;
 
 public interface IChatService {
     List<Chat> getAllChats();
 
-    Chat saveChat(Chat chat);
+
+    Chat saveChat(ChatDTO chat);
 
     Chat updateChat(int id, Chat chat);
 

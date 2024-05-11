@@ -8,7 +8,6 @@ import com.cni.elearning.Models.Users.Role;
 import com.cni.elearning.Models.Users.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-
     Optional<User> findByEmail(String email);
     User findByRole(Role role);
 }

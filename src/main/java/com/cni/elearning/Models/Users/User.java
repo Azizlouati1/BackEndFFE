@@ -36,6 +36,9 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private byte[] image;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
 
 
     public User(String firstname, String lastname, String email, String password, Role role , byte[] image) {

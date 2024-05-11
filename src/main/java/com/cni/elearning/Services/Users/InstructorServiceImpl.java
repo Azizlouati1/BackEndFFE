@@ -25,72 +25,15 @@ public class InstructorServiceImpl implements IInstructorService {
         this.passwordEncoder = passwordEncoder;
     }
 
-        @Transactional
+
         @Override
         public List<Instructor> findAllInstructors() {
-            Connection connection = null;
-            try {
-                connection = dataSource.getConnection();
-                connection.setAutoCommit(false);
-
-                List<Instructor> instructors = instructorRepository.findAll();
-
-                connection.commit(); // If everything goes well, commit the transaction
-
-                return instructors;
-            } catch (SQLException e) {
-                if (connection != null) {
-                    try {
-                        connection.rollback(); // Rollback in case of exception
-                    } catch (SQLException rollbackEx) {
-                        // Handle rollback exception
-                    }
-                }
-                // Handle exception or rethrow it
-                throw new RuntimeException("Failed to find all instructors", e);
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close(); // Close connection in finally block
-                    } catch (SQLException closeEx) {
-                        // Handle close exception
-                    }
-                }
-            }
+        return instructorRepository.findAll();
         }
 
-        @Transactional
         @Override
         public Optional<Instructor> findInstructorById(int id) {
-            Connection connection = null;
-            try {
-                connection = dataSource.getConnection();
-                connection.setAutoCommit(false);
-
-                Optional<Instructor> instructor = instructorRepository.findById(id);
-
-                connection.commit(); // If everything goes well, commit the transaction
-
-                return instructor;
-            } catch (SQLException e) {
-                if (connection != null) {
-                    try {
-                        connection.rollback(); // Rollback in case of exception
-                    } catch (SQLException rollbackEx) {
-                        // Handle rollback exception
-                    }
-                }
-                // Handle exception or rethrow it
-                throw new RuntimeException("Failed to find instructor with ID: " + id, e);
-            } finally {
-                if (connection != null) {
-                    try {
-                        connection.close(); // Close connection in finally block
-                    } catch (SQLException closeEx) {
-                        // Handle close exception
-                    }
-                }
-            }
+                return instructorRepository.findById(id);
         }
     
 
