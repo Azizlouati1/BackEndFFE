@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @Service
 public class StudentServiceImpl implements IStudentService {
@@ -29,8 +30,8 @@ public class StudentServiceImpl implements IStudentService {
             return studentRepository.findAll();
         }
         @Override
-        public Optional<Student> findStudentById(int id){
-            return studentRepository.findById(id);
+        public Student findStudentById(int id){
+            return studentRepository.findById(id).orElse(null);
         }
 
         @Override
@@ -49,22 +50,20 @@ public class StudentServiceImpl implements IStudentService {
 
         @Override
         public Student findStudentById2(int id){
-            Optional<Student> student = studentRepository.findById(id);
-            if(student.isPresent()){
-                return student.get();
-            }
-            return null;
+            return studentRepository.findById(id).orElse(null);
         }
         @Override
-        public void deleteInstuctor(int id){
+        public void deleteInstructor(int id){
             studentRepository.deleteById(id);
         }
     @Override
     public Student updateStudent(int id, Student student){
-        Optional<Student> optionalStudent = studentRepository.findById(id);
-        if(optionalStudent.isPresent()){
+        Student optionalStudent = studentRepository.findById(id).orElse(null);
+        if(optionalStudent != null){
             student.setRole(Role.STUDENT);
-            student.setPassword(passwordEncoder.encode(student.getPassword()));
+            if(!Objects.equals(student.getPassword(), optionalStudent.getPassword())) {
+                student.setPassword(passwordEncoder.encode(student.getPassword()));
+            }
             return studentRepository.save(student);
 
         }

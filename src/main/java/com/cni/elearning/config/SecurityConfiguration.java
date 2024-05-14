@@ -35,7 +35,7 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(request -> request.requestMatchers("api/v1/auth/**")
         .permitAll()
-                .requestMatchers(HttpMethod.GET, "/ws/**").permitAll()
+                .requestMatchers("/**").permitAll()
                 .requestMatchers(HttpMethod.GET,"api/cours/").permitAll()
                 .requestMatchers(HttpMethod.GET,"api/cours/{id}").permitAll()
                 .requestMatchers(HttpMethod.POST,"api/instructors/").permitAll()

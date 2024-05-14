@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @Service
 public class InstructorServiceImpl implements IInstructorService {
@@ -35,8 +36,6 @@ public class InstructorServiceImpl implements IInstructorService {
         public Optional<Instructor> findInstructorById(int id) {
                 return instructorRepository.findById(id);
         }
-    
-
     @Override
     public Instructor addInstructor(Instructor instructor){
         instructor.setRole(Role.INSTRUCTOR);
@@ -58,10 +57,10 @@ public class InstructorServiceImpl implements IInstructorService {
     }
     @Override
     public Instructor updateInstructor(Instructor instructor, int id) {
-        Optional<Instructor> instructorOptional = instructorRepository.findById(id);
-        if (instructorOptional.isPresent()) {
+        Instructor instructorOptional = instructorRepository.findById(id).orElse(null);
+        if (instructorOptional != null ) {
             instructor.setRole(Role.INSTRUCTOR);
-            instructor.setPassword(passwordEncoder.encode(instructor.getPassword()));
+            if (!Objects.equals(instructor.getPassword(), instructorOptional.getPassword())){instructor.setPassword(passwordEncoder.encode(instructor.getPassword()));}
             return instructorRepository.save(instructor);
         }
         throw new RuntimeException("Instructor not found with id: " + id);
