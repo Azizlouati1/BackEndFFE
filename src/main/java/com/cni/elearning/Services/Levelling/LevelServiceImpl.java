@@ -1,7 +1,6 @@
 package com.cni.elearning.Services.Levelling;
 
 import com.cni.elearning.Models.Levelling.Level;
-import com.cni.elearning.Models.Users.Student;
 import com.cni.elearning.Repositories.Levelling.LevelRepository;
 import org.springframework.stereotype.Service;
 
@@ -71,6 +70,11 @@ public class LevelServiceImpl implements ILevelService {
     @Override
     public List<Object[]> getTop5(){
         return levelRepository.findTop5StudentsWithLevelsAndXP();
+    }
+
+    @Override
+    public Level getLevelByStudentId(int StudentId){
+        return levelRepository.findLevelByStudentId(StudentId);
     }
 
 }

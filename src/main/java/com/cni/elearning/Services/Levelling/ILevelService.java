@@ -19,4 +19,6 @@ public interface ILevelService {
     Level addXP(int XP, int id);
 
     List<Object[]> getTop5();
+
+    Level getLevelByStudentId(int StudentId);
 }

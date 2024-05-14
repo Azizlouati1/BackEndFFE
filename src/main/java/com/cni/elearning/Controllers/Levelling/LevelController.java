@@ -4,18 +4,17 @@ package com.cni.elearning.Controllers.Levelling;
 import com.cni.elearning.Models.Levelling.Level;
 import com.cni.elearning.Models.Users.Student;
 import com.cni.elearning.Services.Levelling.ILevelService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/levels")
+@RequiredArgsConstructor
 public class LevelController {
     private final ILevelService levelService;
 
-    public LevelController(ILevelService levelService) {
-        this.levelService = levelService;
-    }
 
     @GetMapping("/")
     public List<Level> getAllLevels(){
@@ -50,5 +49,9 @@ public class LevelController {
     @GetMapping("/top5")
     public List<Object[]> getTop5Levels(){
         return levelService.getTop5();
+    }
+    @GetMapping("/student/{id}")
+    public Level getLevelByStudentId(@PathVariable int id){
+        return levelService.getLevelByStudentId(id);
     }
 }
