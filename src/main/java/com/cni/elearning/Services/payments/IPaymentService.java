@@ -10,4 +10,13 @@ public interface IPaymentService {
     Payments getPaymentsById(int id);
 
     Payments addPayments(Payments payments);
+
+    Payments getPaymentsByDataTransaction_id(int id);
+
+    Payments updatePayments(Payments payments, int id);
+
+
+    Boolean checkPayments(int id);
+
+    void deletePayments(int id);
 }

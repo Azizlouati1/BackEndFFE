@@ -4,12 +4,18 @@ import com.cni.elearning.Models.Chatting.Chat;
 import com.cni.elearning.Models.Events.Participant;
 import com.cni.elearning.Models.FeedBacks.FeedBack;
 import com.cni.elearning.Models.Levelling.Level;
+import com.cni.elearning.Models.Paiements.Payments;
 import com.cni.elearning.Models.Progress.Progress;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.service.annotation.GetExchange;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @AllArgsConstructor
@@ -28,5 +34,12 @@ public class Student extends User {
     private List<Progress> progresses = new ArrayList<>();
     @OneToOne(mappedBy = "student",cascade = CascadeType.ALL)
     private Level level;
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private List<Payments> payments;
+    private Boolean isSubscribed = false;
+    private LocalDateTime dateEnd ;
+    private String phoneNumber;
 
 }

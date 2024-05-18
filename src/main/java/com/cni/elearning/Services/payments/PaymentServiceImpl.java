@@ -23,5 +23,23 @@ public class PaymentServiceImpl implements IPaymentService{
     public Payments addPayments(Payments payments){
         return paymentRepository.save(payments);
     }
+    @Override
+    public Payments getPaymentsByDataTransaction_id(int id){
+        return paymentRepository.getPaymentsByDataTransaction_id(id);
+    }
+    @Override
+    public Payments updatePayments(Payments payments , int id){
+        return paymentRepository.save(payments);
+    }
+    @Override
+    public Boolean checkPayments(int id){
+        Payments payments =paymentRepository.findById(id).orElse(null);
+        assert payments != null;
+        return payments.getData().isPayment_status();
+    }
+    @Override
+    public void deletePayments(int id){
+        paymentRepository.deleteById(id);
+    }
 }
 

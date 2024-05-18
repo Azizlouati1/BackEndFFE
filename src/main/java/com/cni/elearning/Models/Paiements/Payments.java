@@ -1,10 +1,17 @@
 package com.cni.elearning.Models.Paiements;
 
+import com.cni.elearning.Models.Users.Student;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @AllArgsConstructor
@@ -15,38 +22,20 @@ import lombok.Setter;
 public class Payments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private boolean status;
     private String message;
     private int code;
-
+    private LocalDateTime dateSubmit = LocalDateTime.now();
+    private int monthsPayments;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "data")
     private Data data;
     @Column(nullable = true)
     private boolean refund = false;
-
+    @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Student student;
 }
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
-class Data {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String firstname;
-    private boolean paymentStatus;
-    private String phone;
-    private int cost;
-    private double amount;
-    private int receivedAmount;
-    private String note;
-    private String token;
-    private String lastname;
-    private String email;
-    private int transactionId;
-    private int buyerId;
-}
