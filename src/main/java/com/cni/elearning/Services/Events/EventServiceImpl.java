@@ -42,5 +42,4 @@ public class EventServiceImpl implements IEventService{
         }
         throw new RuntimeException( "Event not found with id "+id);
     }
-
 }

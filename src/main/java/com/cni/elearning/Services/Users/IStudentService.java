@@ -1,6 +1,7 @@
 package com.cni.elearning.Services.Users;
 
 import com.cni.elearning.Models.Users.Student;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 
@@ -17,4 +18,8 @@ public interface IStudentService {
 
 
     Student updateStudent(int id, Student student);
+
+
+    @Scheduled(fixedRate = 3000)
+    void checkIfPremium();
 }

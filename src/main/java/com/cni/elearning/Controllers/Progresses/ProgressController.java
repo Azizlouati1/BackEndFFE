@@ -42,4 +42,8 @@ public class ProgressController {
     public Progress updateProgress(@PathVariable int id, @RequestBody Progress progress){
         return progressService.updateProgress(progress,id);
     }
+    @GetMapping("/{id}/{lessonId}")
+    public Progress addLessonToProgress(@PathVariable int id, @PathVariable int lessonId){
+        return progressService.AddLessonToProgress(id,lessonId);
+    }
 }

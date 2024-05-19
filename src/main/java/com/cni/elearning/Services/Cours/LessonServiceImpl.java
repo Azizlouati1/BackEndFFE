@@ -4,6 +4,8 @@ package com.cni.elearning.Services.Cours;
 import java.util.List;
 import java.util.Optional;
 
+import com.cni.elearning.Services.Progresses.IProgressService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.cni.elearning.Models.Cours.Chapter;
@@ -11,17 +13,13 @@ import com.cni.elearning.Models.Cours.Lesson;
 import com.cni.elearning.Models.Cours.Quiz;
 import com.cni.elearning.Repositories.Cours.LessonRepository;
 @Service
+@RequiredArgsConstructor
 public class LessonServiceImpl implements ILessonService {
-
+    private final IProgressService progressService;
     private final LessonRepository lessonRepository;
     private final IChapterService chapterService;
     private final IQuizService quizService;
 
-    public LessonServiceImpl(LessonRepository lessonRepository, IChapterService chapterService, IQuizService quizService) {
-        this.lessonRepository = lessonRepository;
-        this.chapterService = chapterService;
-        this.quizService = quizService;
-    }
     @Override
     public List<Lesson> getAllLessons() {
         return lessonRepository.findAll();
@@ -32,7 +30,9 @@ public class LessonServiceImpl implements ILessonService {
     }
     @Override
     public Lesson saveLesson(Lesson lesson) {
-        return lessonRepository.save(lesson);
+        Lesson lessonToSave = lessonRepository.save(lesson);
+        progressService.updateLessons();
+        return lessonToSave;
     }
     @Override
     public void deleteLesson(int id) {
