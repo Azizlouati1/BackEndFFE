@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,42 +31,31 @@ public class Progress {
     @JoinTable(name = "progress_lesson",
             joinColumns = @JoinColumn(name = "progress_id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_id"))
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Lesson> completedLessons = new ArrayList<>();
 
+    private Boolean courEnded = false;
+    @Column(precision = 5, scale = 2)
+    private BigDecimal percentage =BigDecimal.ZERO;
+    private int MaxXP;
+    private int XPReceived = 0;
     @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Student student = new Student();
 
     @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Cour cour = new Cour();
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Student getStudent() {
-        return student;
-    }
     public void setStudent( int id ){
         this.student.setId(id);
-    }
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Cour getCour() {
-        return cour;
     }
     public void setCour( int id ){
         this.cour.setId(id);
     }
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public List<Lesson> getCompletedLessons() {
-        return completedLessons;
-    }
-    public void setCompletedLessons( List<Integer> completedLessons ){
-        this.completedLessons = new ArrayList<>();
-        for ( Integer id : completedLessons ){
-            Lesson lesson = new Lesson();
-            lesson.setId(id);
-            this.completedLessons.add(lesson);
-        }
-    }
+
 }
 

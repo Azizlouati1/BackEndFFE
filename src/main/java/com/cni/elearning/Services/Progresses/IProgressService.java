@@ -14,4 +14,8 @@ public interface IProgressService {
     void deleteProgress(int id);
 
     Progress updateProgress(Progress progress, int id);
+
+    Progress AddLessonToProgress(int id, int lessonId);
+
+    void updateLessons();
 }

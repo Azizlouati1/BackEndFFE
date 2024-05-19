@@ -8,15 +8,14 @@ import com.cni.elearning.Models.Users.Student;
 import com.cni.elearning.Repositories.Users.StudentRepository;
 import com.cni.elearning.Services.payments.IPaymentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.time.Month;
+
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("api/payments")
