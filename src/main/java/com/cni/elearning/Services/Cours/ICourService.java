@@ -15,4 +15,6 @@ public interface ICourService {
     List<Cour> getCourByInstructorId(int id);
 
     List<Cour> getCourByInstructorId2(int id);
+    List<Cour> searchCoursByTitle(String title);
+
 }

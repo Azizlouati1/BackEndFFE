@@ -15,5 +15,7 @@ public interface CourRepository extends JpaRepository<Cour, Integer> {
     public Cour findByLessonId(@Param("lessonId") Integer lessonId);
     @Query("SELECT c FROM Cour c WHERE c.instructor.id = :instructorId")
     public List<Cour> findByInstructorId(@Param("instructorId") Integer instructorId);
+    @Query("SELECT c FROM Cour c WHERE c.title LIKE %:title%")
+    public List<Cour> findByTitleContaining(String title);
 
 }

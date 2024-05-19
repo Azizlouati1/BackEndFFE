@@ -23,8 +23,8 @@ public class Participant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private Date timeDeposed;
-    private String answer;
+        private Date timeDeposed;
+        private String answer;
     @ManyToOne
     private Student student = new Student();
     @ManyToOne

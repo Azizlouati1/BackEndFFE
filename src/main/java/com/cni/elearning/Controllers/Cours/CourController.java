@@ -50,4 +50,8 @@ public class CourController {
     public List<Cour> getCourByInstructorId(@PathVariable int id){
         return courService.getCourByInstructorId2(id);
     }
+    @GetMapping("/search")
+    public List<Cour> searchCoursByTitle(@RequestParam String title) {
+        return courService.searchCoursByTitle(title);
+    }
 }

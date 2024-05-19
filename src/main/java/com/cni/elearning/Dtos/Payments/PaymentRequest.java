@@ -18,8 +18,8 @@ public class PaymentRequest {
     private String last_name;
     private String email;
     private String phone;
-    private String return_url = "https://localhost:4200/student";
-    private String cancel_url = "https://localhost:4200/student";
+    private String return_url = "https://localhost:4200/Learner/payment";
+    private String cancel_url = "https://localhost:4200/Learner/payment";
     private String webhook_url = "https://localhost:4200/admin";
     private UUID order_id = UUID.randomUUID();
 }
