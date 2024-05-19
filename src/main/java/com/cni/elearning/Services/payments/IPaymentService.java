@@ -1,6 +1,7 @@
 package com.cni.elearning.Services.payments;
 
 import com.cni.elearning.Models.Paiements.Payments;
+import com.cni.elearning.Models.Paiements.Refund;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface IPaymentService {
     Boolean checkPayments(int id);
 
     void deletePayments(int id);
+
 }

@@ -36,7 +36,7 @@ public class ProgressServiceImpl implements IProgressService{
         assert studentSaved != null;
         assert courSaved != null;
         Progress progressSaved = progressRepository.findByStudentIdAndCourId(studentSaved.getId(), courSaved.getId());
-        if (progressSaved == null) {
+        if (progressSaved == null && (courSaved.getPremium()==studentSaved.getIsSubscribed()||studentSaved.getIsSubscribed()) ) {
             int Lessons = courSaved.getLessons().size();
             progress.setMaxXP(Lessons*XPForEveryLesson);
             return progressRepository.save(progress);

@@ -30,52 +30,33 @@ public class ParticipantServiceImpl implements IParticipantService {
     public List<Participant> getAllParticipants() {
         return participantRepository.findAll();
     }
-
     @Override
     public Participant saveParticipant(Participant participant) {
-        // Retrieve the student and event associated with the participant
         Student studentParticipated = studentRepository.findById(participant.getStudent().getId()).orElse(null);
         Event eventParticipated = eventRepository.findById(participant.getEvent().getId()).orElse(null);
-
-        // Check if the student and event exist
         assert studentParticipated != null;
         assert eventParticipated != null;
-
-        // Check if the participant already exists
         Participant participantFound = participantRepository.findByStudentAndEventId(studentParticipated.getId(), eventParticipated.getId());
         if (participantFound != null) {
             throw new RuntimeException("Participant already exists");
         }
-
-        // Get the current time in UTC
         LocalDateTime localDateTime = LocalDateTime.now();
-        // Add 1 hour to the current time to match Tunisia's time zone
         localDateTime = localDateTime.plusHours(1);
-        // Convert LocalDateTime to Date
         Date currentDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-
-        // Set the time deposed for the participant
         participant.setTimeDeposed(currentDate);
-
-        // Check if the current date is within the event's start and end dates
         if (currentDate.before(eventParticipated.getEndDate()) && currentDate.after(eventParticipated.getStartDate())) {
-            // Save the participant
             return participantRepository.save(participant);
         } else {
-            // Participant's time is not within the event's duration
             throw new RuntimeException("Time of the event ended");
         }
     }
-
-
     @Override
     public List<Participant> getParticipantsByEventId(int quizId) {
         return participantRepository.findByEventId(quizId);
     }
     @Override
     public Participant getParticipantById(int id) {
-        Optional<Participant> participant = participantRepository.findById(id);
-        return participant.get();
+        return  participantRepository.findById(id).orElse(null);
     }
     @Override
     public void deleteParticipant(int id) {
@@ -89,5 +70,4 @@ public class ParticipantServiceImpl implements IParticipantService {
         }
         throw new RuntimeException( "Participant not found with id "+id);
     }
-
 }

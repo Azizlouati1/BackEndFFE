@@ -4,7 +4,9 @@ import com.cni.elearning.Dtos.Payments.PaymentRequest;
 import com.cni.elearning.Dtos.Payments.PaymentResponse;
 import com.cni.elearning.Dtos.Payments.RefundRequest;
 import com.cni.elearning.Models.Paiements.Payments;
+import com.cni.elearning.Models.Paiements.Refund;
 import com.cni.elearning.Models.Users.Student;
+import com.cni.elearning.Repositories.Payments.RefundRepository;
 import com.cni.elearning.Repositories.Users.StudentRepository;
 import com.cni.elearning.Services.payments.IPaymentService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.List;
 public class PaymentsController {
     public final IPaymentService paymentService;
     private final StudentRepository studentRepository;
+    private final RefundRepository refundRepository;
 
     @GetMapping("/")
     public List<Payments> getAllPayments(){
@@ -99,36 +102,6 @@ public class PaymentsController {
             }
             studentRepository.save(student);
             return ResponseEntity.ok(payments);
-        } else {
-            return ResponseEntity.status(response.getStatusCode()).body(null);
-        }
-    }
-    @PostMapping("/refund/{id}")
-    public ResponseEntity<String> refundPayment(@RequestBody RefundRequest  refundRequest , @PathVariable int id) {
-        String url = "https://sandbox.paymee.tn/api/v2/payments/refund";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "token 1ebd9a7e4101918e9d1868fb9669b6a3c4657fc7");
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        Student student = studentRepository.findById(id).orElse(null);
-        HttpEntity<RefundRequest> entity = new HttpEntity<>(refundRequest, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-        assert student != null;
-        if (response.getStatusCode().is2xxSuccessful()) {
-            String responseBody = response.getBody();
-            Payments payments = paymentService.getPaymentsByDataTransaction_id(refundRequest.getTransaction_id());
-            payments.setRefund(true);
-            int monthsToRemove = (int) (refundRequest.getAmount() / 20);
-            paymentService.updatePayments(payments,payments.getId());
-            student.setDateEnd(student.getDateEnd().minusMonths(monthsToRemove));
-            LocalDateTime localDateTime = LocalDateTime.now();
-            if(student.getDateEnd().isBefore(localDateTime)){
-                student.setIsSubscribed(false);
-            }
-            studentRepository.save(student);
-            return ResponseEntity.ok(responseBody);
         } else {
             return ResponseEntity.status(response.getStatusCode()).body(null);
         }

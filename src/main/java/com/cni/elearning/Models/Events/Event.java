@@ -33,5 +33,6 @@ public class Event {
     private String question;
     @OneToMany(mappedBy = "event",cascade = CascadeType.ALL)
     private List<Participant> participants;
-
+    @Column(nullable = false)
+    private int reward;
 }

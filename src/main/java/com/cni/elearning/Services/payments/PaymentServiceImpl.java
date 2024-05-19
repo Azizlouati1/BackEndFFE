@@ -1,7 +1,9 @@
 package com.cni.elearning.Services.payments;
 
 import com.cni.elearning.Models.Paiements.Payments;
+import com.cni.elearning.Models.Paiements.Refund;
 import com.cni.elearning.Repositories.Payments.PaymentRepository;
+import com.cni.elearning.Repositories.Payments.RefundRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements IPaymentService{
     public final PaymentRepository paymentRepository;
+    public final RefundRepository refundRepository;
     @Override
     public List<Payments> getAllPayments(){
         return paymentRepository.findAll();
@@ -41,5 +44,6 @@ public class PaymentServiceImpl implements IPaymentService{
     public void deletePayments(int id){
         paymentRepository.deleteById(id);
     }
+
 }
 
