@@ -77,4 +77,8 @@ public class CourServiceImpl implements ICourService {
         }
         return cours2;
     }
+    @Override
+    public List<Cour> searchCoursByTitle(String title) {
+        return courRepository.findByTitleContaining(title);
+    }
 }
