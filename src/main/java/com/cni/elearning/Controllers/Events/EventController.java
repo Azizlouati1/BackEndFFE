@@ -42,4 +42,8 @@ public class EventController {
     public Event updateEvent(@PathVariable int id, @RequestBody Event event){
         return eventService.updateEvent(event,id);
     }
+    @PutMapping("/winner/{id}/{participantId}")
+    public void setWinner(@PathVariable int id,@PathVariable int participantId){
+        eventService.setWinner(id,participantId);
+    }
 }

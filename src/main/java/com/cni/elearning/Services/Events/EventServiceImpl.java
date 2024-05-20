@@ -4,18 +4,22 @@ package com.cni.elearning.Services.Events;
 
 
 import com.cni.elearning.Models.Events.Event;
+import com.cni.elearning.Models.Events.Participant;
 import com.cni.elearning.Repositories.Events.EventRepository;
+import com.cni.elearning.Repositories.Events.ParticipantRepository;
+import com.cni.elearning.Services.Levelling.ILevelService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service
+@RequiredArgsConstructor
 public class EventServiceImpl implements IEventService{
     private final EventRepository eventRepository;
+    private final ParticipantRepository participantRepository;
+    private final ILevelService levelService;
 
-    public EventServiceImpl(EventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
     @Override
     public List<Event> getAllEvents() {
         return eventRepository.findAll();
@@ -41,5 +45,31 @@ public class EventServiceImpl implements IEventService{
             return eventRepository.save(event);
         }
         throw new RuntimeException( "Event not found with id "+id);
+    }
+    @Override
+    public void setWinner(int id, int participantId) {
+        Participant participant = participantRepository.findById(participantId)
+                .orElseThrow(() -> new RuntimeException("Participant with ID " + participantId + " not found"));
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event with ID " + id + " not found"));
+
+        if (!event.getParticipants().contains(participant)) {
+            throw new RuntimeException("Participant with ID " + participantId + " does not exist in the event");
+        }
+
+        if (event.getWinner() != null) {
+            throw new RuntimeException("Event with ID " + id + " already has a winner");
+        }
+
+        // Setting the winner and updating the participant
+        event.setWinner(participant);
+        participant.setWinner(true);
+
+        // Adding XP to the participant's student level
+        levelService.addXP(event.getReward(), participant.getStudent().getLevel().getId());
+
+        // Saving changes to the repositories
+        participantRepository.save(participant);
+        eventRepository.save(event);
     }
 }

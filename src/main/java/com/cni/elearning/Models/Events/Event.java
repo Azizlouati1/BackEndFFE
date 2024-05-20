@@ -35,4 +35,6 @@ public class Event {
     private List<Participant> participants;
     @Column(nullable = false)
     private int reward;
+    @ManyToOne
+    private Participant winner;
 }

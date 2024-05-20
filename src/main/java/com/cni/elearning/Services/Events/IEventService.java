@@ -14,4 +14,6 @@ public interface IEventService {
     void deleteEvent(int id);
 
     Event updateEvent(Event event, int id);
+
+    void setWinner(int id, int participantId);
 }
