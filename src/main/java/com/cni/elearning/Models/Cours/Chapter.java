@@ -30,7 +30,7 @@ public class Chapter {
     @Column(nullable = true)
     private byte[] video;
     @Column(nullable = true)
-    @ElementCollection
+    @Lob
     private List<String> coursesContent;
 
 
