@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
@@ -36,10 +37,13 @@ public class Chapter {
     private byte[] video;
     @Column(nullable = true)
     @Lob
-    private List<String> coursesContent;
+    private String coursesContent;
     @Lob
     @Column(nullable = true)
     private String courFile;
+
+    @Lob
+    private MultipartFile file;
 
     public void setLesson(int LessonId) {
         this.lesson = new Lesson();

@@ -15,7 +15,7 @@ public class CrossOrigin {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 registry.addMapping("/api/**")
                 .allowedOrigins("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedMethods("GET","POST","PUT","DELETE")
                 .allowedHeaders("*");
             }
         };

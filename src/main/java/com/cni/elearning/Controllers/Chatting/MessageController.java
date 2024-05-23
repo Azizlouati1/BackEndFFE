@@ -23,7 +23,7 @@ public class MessageController {
     public Message getMessageById(@PathVariable int id) {
         return messageService.getMessageById(id);
     }
-    @MessageMapping("/sendMessage")
+  //  @MessageMapping("/sendMessage")
     public Message sendMessage(@RequestBody Message message) {
         // Convert and send the message to a specific user's destination
         messagingTemplate.convertAndSendToUser(
