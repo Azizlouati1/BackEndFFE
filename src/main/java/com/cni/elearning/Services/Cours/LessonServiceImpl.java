@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.cni.elearning.Services.Progresses.IProgressService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,7 @@ public class LessonServiceImpl implements ILessonService {
     private final LessonRepository lessonRepository;
     private final IChapterService chapterService;
     private final IQuizService quizService;
-
-    @Override
+   @Override
     public List<Lesson> getAllLessons() {
         return lessonRepository.findAll();
     }
@@ -35,8 +35,15 @@ public class LessonServiceImpl implements ILessonService {
         return lessonToSave;
     }
     @Override
+    @Transactional
     public void deleteLesson(int id) {
-        lessonRepository.deleteById(id);
+        Lesson lessonToDelete = lessonRepository.findById(id).orElse(null);
+        assert lessonToDelete != null;
+            // Remove associations with Progress entities
+        lessonToDelete.getProgresses().forEach(progress -> {
+                progress.getCompletedLessons().remove(lessonToDelete);
+            });
+        lessonRepository.delete(lessonToDelete);
     }
     @Override
     public Lesson updateLesson(Lesson lesson , int id){

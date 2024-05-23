@@ -18,4 +18,5 @@ public interface IProgressService {
     Progress AddLessonToProgress(int id, int lessonId);
 
     void updateLessons();
+
 }

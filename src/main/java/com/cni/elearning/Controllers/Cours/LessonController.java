@@ -2,6 +2,8 @@ package com.cni.elearning.Controllers.Cours;
 
 import java.util.List;
 
+import com.cni.elearning.Services.Progresses.IProgressService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import com.cni.elearning.Models.Cours.Chapter;
@@ -13,13 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/lessons")
+@RequiredArgsConstructor
 public class LessonController {
 
     private final ILessonService lessonService;
+    private final IProgressService progressService;
 
-    public LessonController(ILessonService lessonService) {
-        this.lessonService = lessonService;
-    }
+
 
     @GetMapping("/")
     public List<Lesson> getAllLessons(){
@@ -48,6 +50,7 @@ public class LessonController {
     @DeleteMapping("/{id}")
     public void deleteLesson(@PathVariable int id){
         lessonService.deleteLesson(id);
+        progressService.updateLessons();
     }
 
     @GetMapping("/quiz/{lessonId}")

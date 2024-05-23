@@ -18,20 +18,17 @@ public class AnswerController {
 
     @GetMapping("/")
     public List<Answer> getAllAnswers(){
-        List<Answer> answers = answerService.getAllAnswers();
-        return answers;
+        return answerService.getAllAnswers();
     }
 
     @GetMapping("/{id}")
     public Answer getAnswerById(@PathVariable int id){
-        Answer answer = answerService.getAnswerById(id);
-        return answer;
+        return answerService.getAnswerById(id);
     }
 
     @PostMapping("/")
     public Answer saveAnswer(@RequestBody Answer answer){
-        Answer savedAnswer = answerService.saveAnswer(answer);
-        return savedAnswer;
+        return answerService.saveAnswer(answer);
     }
 
     @DeleteMapping("/{id}")
@@ -41,13 +38,11 @@ public class AnswerController {
     
     @GetMapping("/questions/{questionId}")
     public List<Answer> getAnswersByQuestionId(@PathVariable int questionId){
-        List<Answer> answers = answerService.getAnswersByQuestionId(questionId);
-        return answers;
+        return answerService.getAnswersByQuestionId(questionId);
     }
 
     @PutMapping("/{id}")
     public Answer updateAnswer(@RequestBody Answer answer, @PathVariable int id){
-        Answer updatedAnswer = answerService.updateAnswer(answer, id);
-        return updatedAnswer;
+        return answerService.updateAnswer(answer, id);
     }
 }

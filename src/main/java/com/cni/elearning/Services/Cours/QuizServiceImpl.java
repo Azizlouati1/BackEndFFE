@@ -1,37 +1,51 @@
 package com.cni.elearning.Services.Cours;
 
 
+import com.cni.elearning.Models.Cours.Lesson;
 import com.cni.elearning.Models.Cours.Quiz;
 import com.cni.elearning.Models.Cours.Question;
+import com.cni.elearning.Repositories.Cours.LessonRepository;
 import com.cni.elearning.Repositories.Cours.QuizRepository;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-@Service    
+@Service
+@RequiredArgsConstructor
 public class QuizServiceImpl implements IQuizService {
 
     private final QuizRepository quizRepository;
     private final IQuestionService questionService;
+    private final LessonRepository lessonRepository;
 
-    public QuizServiceImpl(QuizRepository quizRepository, IQuestionService questionService) {
-        this.quizRepository = quizRepository;
-        this.questionService = questionService;
-    }
     @Override
     public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
     @Override
-    public Optional<Quiz> getQuizById(int id) {
-        return quizRepository.findById(id);
+    public Quiz getQuizById(int id) {
+        return quizRepository.findById(id).orElse(null);
     }
     @Override
     public Quiz saveQuiz(Quiz quiz) {
-        if (quiz.getLesson() != null) {
-            return quizRepository.save(quiz);
+        if(quiz.getQuestions().size()<quiz.getPassingScore()){
+            throw new RuntimeException("passing score should be equal or less then the questions");
         }
-        return null;
+        Lesson lessonOfQuiz = lessonRepository.findById(quiz.getLesson().getId()).orElse(null);
+        assert lessonOfQuiz != null;
+        System.out.println(lessonOfQuiz.getQuizzes().size());
+        if(!lessonOfQuiz.getQuizzes().isEmpty()){
+            throw new RuntimeException("Lesson Already has a quiz");
+        }
+        Quiz quizSaved = quizRepository.save(quiz);
+        List<Question> questionsToSave = quiz.getQuestions();
+        quizSaved.setScore(questionsToSave.size());
+        for (Question question : questionsToSave){
+            question.setQuiz(quizSaved.getId());
+            questionService.saveQuestion(question);
+        }
+        return quizRepository.save(quizSaved);
     }
     @Override
     public void deleteQuiz(int id) {

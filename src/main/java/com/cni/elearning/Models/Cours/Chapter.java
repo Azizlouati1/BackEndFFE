@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +22,11 @@ public class Chapter {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "lesson_id",unique = true, nullable = false)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Lesson lesson;
+
     @Column(nullable = false, length = 100)
     private String title;
     @Column(nullable = false, length = 1000)
@@ -32,13 +37,9 @@ public class Chapter {
     @Column(nullable = true)
     @Lob
     private List<String> coursesContent;
-
-
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Lesson getLesson() {
-        return lesson;
-    }
+    @Lob
+    @Column(nullable = true)
+    private String courFile;
 
     public void setLesson(int LessonId) {
         this.lesson = new Lesson();

@@ -21,6 +21,8 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Cour cour;
     @Column(nullable = false, length = 100)
     private String title;
@@ -29,56 +31,35 @@ public class Lesson {
 
     @Column(nullable = true )
     @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL)
-    private List<Chapter> chapters;
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private List<Chapter> chapters = new ArrayList<>();
 
-    @OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL)
-    private List<Quiz> quizzes;
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private List<Quiz> quizzes = new ArrayList<>();
 
     @ManyToMany(mappedBy ="completedLessons")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Progress> progresses = new ArrayList<>();
 
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Cour getCour() {
-        return cour;
-    }
+
     public void setCour(int courId) {
         this.cour = new Cour();
         this.cour.setId(courId);
     }
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public List<Chapter> getChapters() {
-        return chapters;
-    }
 
     public void setChapters(List<Integer> chapters) {
-        this.chapters = new ArrayList<>();
         for ( Integer id : chapters) {
             Chapter chapter = new Chapter();
             chapter.setId(id);
             this.chapters.add(chapter);
         }
     }
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public  List<Quiz> getQuizzes(){
-        return quizzes;
-    }
-    public void setQuizzes(List<Integer> quizzes) {
-        this.quizzes = new ArrayList<>();
-        for ( Integer id : quizzes) {
-            Quiz quiz = new Quiz();
-            quiz.setId(id);
-            this.quizzes.add(quiz);
-        }
-    }
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public List<Progress> getProgresses(){
-        return progresses;
-    }
+
     public void setProgresses(List<Integer> progresses) {
         this.progresses = new ArrayList<>();
         for ( Integer id : progresses) {

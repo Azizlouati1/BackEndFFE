@@ -1,8 +1,5 @@
 package com.cni.elearning.Models.Progress;
 
-
-import com.cni.elearning.Models.Cours.Cour;
-import com.cni.elearning.Models.Cours.Lesson;
 import com.cni.elearning.Models.Cours.Quiz;
 import com.cni.elearning.Models.Users.Student;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -14,50 +11,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Entity
-public class Progress {
+public class QuizTests {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @ManyToMany
-    @JoinTable(name = "progress_lesson",
-            joinColumns = @JoinColumn(name = "progress_id"),
-            inverseJoinColumns = @JoinColumn(name = "lesson_id"))
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    private List<Lesson> completedLessons = new ArrayList<>();
-
-    private Boolean courEnded = false;
-    @Column(precision = 5, scale = 2)
-    private BigDecimal percentage =BigDecimal.ZERO;
-    private int MaxXP;
-    private int XPReceived = 0;
     @ManyToOne
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Student student = new Student();
-
     @ManyToOne
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    private Cour cour = new Cour();
+    private Quiz quiz = new Quiz();
+    private int score;
 
-    public void setStudent( int id ){
+    public void setStudent(int id){
         this.student.setId(id);
     }
-    public void setCour( int id ){
-        this.cour.setId(id);
+    public void setQuiz(int id){
+        this.quiz.setId(id);
     }
 
-}
 
+}

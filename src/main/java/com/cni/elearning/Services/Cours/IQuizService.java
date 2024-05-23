@@ -8,7 +8,7 @@ import com.cni.elearning.Models.Cours.Quiz;
 public interface IQuizService {
 
     List<Quiz> getAllQuizzes();
-    Optional<Quiz> getQuizById(int id);
+    Quiz getQuizById(int id);
     Quiz saveQuiz(Quiz quiz);
     void deleteQuiz(int id);
     List<Question> getQuestionsByQuizId(int quizId);
