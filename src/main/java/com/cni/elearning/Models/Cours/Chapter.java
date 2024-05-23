@@ -42,8 +42,6 @@ public class Chapter {
     @Column(nullable = true)
     private String courFile;
 
-    @Lob
-    private MultipartFile file;
 
     public void setLesson(int LessonId) {
         this.lesson = new Lesson();
