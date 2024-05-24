@@ -56,8 +56,13 @@ public class CourServiceImpl implements ICourService {
 
     @Override
     public Cour updateCour(Cour cour , int id){
-        Optional<Cour> optionalCour = courRepository.findById(id);
-        if (optionalCour.isPresent()) {
+        Cour optionalCour = courRepository.findById(id).orElse(null);
+        assert optionalCour != null;
+        if (cour.getId() == id)
+        {
+            cour.setViews(optionalCour.getViews());
+            cour.setInstructor(optionalCour.getInstructor().getId());
+            cour.setRating(optionalCour.getRating());
             return courRepository.save(cour);
         }
         throw new RuntimeException("Cour not found with id: " + id);
