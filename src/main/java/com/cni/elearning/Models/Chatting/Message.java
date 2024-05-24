@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -27,12 +28,14 @@ public class Message {
     private int sender;
     @Column(nullable = false)
     private int receiver;
-    private Date date;
+    private LocalDateTime date = LocalDateTime.now();
     @ManyToOne
-    private Chat chat;
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
-    public Chat getChat() {
-        return chat;
+    private Chat chat = new Chat();
+
+    public void setChat(int id) {
+        this.chat.setId(id);
     }
+
 }

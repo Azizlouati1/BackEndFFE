@@ -3,17 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSocket Test</title>
+    <title>WebSocket Chat</title>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+        }
+        .chat-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+        .chat-header {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            flex-direction: column;
+        }
+        .chat-input input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            width: calc(100% - 22px);
+        }
+        .chat-input button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            align-self: flex-end;
+        }
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+            display: flex;
+        }
+        .message.sent {
+            background-color: #dcf8c6;
+            justify-content: flex-end;
+            align-self: flex-end;
+        }
+        .message.received {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            justify-content: flex-start;
+            align-self: flex-start;
+        }
+    </style>
 </head>
 <body>
-<h1>WebSocket Test</h1>
-<button onclick="connect()">Connect</button>
-<button onclick="sendMessage()">Send Message</button>
-<button onclick="sendPrivateMessage()">Send Private Message</button>
+<div class="chat-container">
+    <div class="chat-header">
+        WebSocket Chat
+    </div>
+    <div class="chat-messages" id="messages"></div>
+    <div class="chat-input">
+        <input type="text" id="chatId" placeholder="Enter chat ID">
+        <input type="text" id="senderId" placeholder="Enter sender ID">
+        <input type="text" id="receiverId" placeholder="Enter receiver ID">
+        <input type="text" id="message" placeholder="Enter your message">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
 <script>
     let stompClient = null;
+    let currentChatId = null;
 
     function connect() {
         const socket = new SockJS('/ws/stomp-endpoint');
@@ -21,25 +114,70 @@
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/messages', function (message) {
-                console.log('Received: ' + message.body);
-            });
-            stompClient.subscribe('/user/queue/reply', function (message) {
-                console.log('Private message received: ' + message.body);
+                const receivedMessage = JSON.parse(message.body);
+                if (receivedMessage.chat === parseInt(currentChatId)) {
+                    showMessage(receivedMessage);
+                }
             });
         });
     }
 
     function sendMessage() {
+        const messageContent = document.getElementById('message').value;
+        const senderId = document.getElementById('senderId').value;
+        const receiverId = document.getElementById('receiverId').value;
+        const chatId = document.getElementById('chatId').value;
+
+        if (!senderId || !receiverId || !chatId) {
+            alert("Please enter chat ID, sender ID, and receiver ID");
+            return;
+        }
+
+        const message = {
+            message: messageContent,
+            sender: senderId,
+            receiver: receiverId,
+            chat: chatId
+        };
+
         if (stompClient) {
-            stompClient.send("/app/sendMessage", {}, "Hello, World!");
+            stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
+            document.getElementById('message').value = ''; // Clear the message input field after sending
         }
     }
 
-    function sendPrivateMessage() {
-        if (stompClient) {
-            stompClient.send("/app/sendPrivateMessage", {}, "Hello, Private World!");
-        }
+    function showMessage(message) {
+        const senderId = parseInt(document.getElementById('senderId').value);
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.classList.add(message.sender === senderId ? 'sent' : 'received');
+        messageElement.textContent = `Sender: ${message.sender}, Message: ${message.message}`;
+        document.getElementById('messages').appendChild(messageElement);
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight; // Auto-scroll to the latest message
     }
+
+    function loadChatHistory() {
+        const chatId = document.getElementById('chatId').value;
+        const senderId = document.getElementById('senderId').value;
+
+        if (!chatId || !senderId) {
+            alert("Please enter chat ID and sender ID to load chat history");
+            return;
+        }
+
+        currentChatId = chatId;
+        fetch(`/api/message/chat/${chatId}`)
+            .then(response => response.json())
+            .then(messages => {
+                document.getElementById('messages').innerHTML = ''; // Clear current messages
+                messages.forEach(showMessage);
+            });
+    }
+
+    document.getElementById('chatId').addEventListener('change', loadChatHistory);
+    document.getElementById('senderId').addEventListener('change', loadChatHistory);
+
+    connect();
 </script>
 </body>
 </html>

@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class WebsocketController {
 
-    private final SimpMessagingTemplate messagingTemplate;
+  //  private final SimpMessagingTemplate messagingTemplate;
 
-    @MessageMapping("/sendMessage")
-    @SendTo("/topic/messages")
-    public String broadcastMessage(String message) {
-        return message;
-    }
+ //   @MessageMapping("/sendMessage")
+   // @SendTo("/topic/messages")
+  //  public String broadcastMessage(String message) {
+   //     return message;
+  //  }
 
     // Optionally, if you want to send a message to a specific user
-    @MessageMapping("/sendPrivateMessage")
-    @SendToUser("/queue/reply")
-    public String sendPrivateMessage(String message) {
-        return message;
-    }
+  //  @MessageMapping("/sendPrivateMessage")
+  //  @SendToUser("/queue/reply")
+ //   public String sendPrivateMessage(String message) {
+     ///   return message;
+   // }
 }

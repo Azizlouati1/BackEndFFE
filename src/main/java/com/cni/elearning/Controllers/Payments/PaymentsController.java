@@ -75,7 +75,7 @@ public class PaymentsController {
         String url = "https://sandbox.paymee.tn/api/v2/payments/{token}/check";
         String apiUrl = url.replace("{token}", token);
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "token 4e9385e30b65c688d6d28de68156c4870e350887");
+        headers.set("Authorization", "token 1ebd9a7e4101918e9d1868fb9669b6a3c4657fc7");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         RestTemplate restTemplate = new RestTemplate();

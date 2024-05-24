@@ -15,31 +15,43 @@ import java.util.List;
 public class MessageController {
     private final IMessageService messageService;
     private final SimpMessagingTemplate messagingTemplate;
+
     @GetMapping("/")
     public List<Message> getMessages() {
         return messageService.getMessages();
     }
+
     @GetMapping("/{id}")
     public Message getMessageById(@PathVariable int id) {
         return messageService.getMessageById(id);
     }
-  //  @MessageMapping("/sendMessage")
+
+    @PostMapping("/")
     public Message sendMessage(@RequestBody Message message) {
-        // Convert and send the message to a specific user's destination
-        messagingTemplate.convertAndSendToUser(
-                String.valueOf(message.getReceiver()), // User ID to send the message to
-                "/queue/messages", // Destination for the message
-                message // The message object to send
-        );
-        // Optionally, you can also process the message and return it
+        // Process and send the message using HTTP endpoint
+        messagingTemplate.convertAndSend("/topic/messages", message);
         return messageService.sendMessage(message);
     }
+
     @PutMapping("/{id}")
     public Message updateMessage(@PathVariable int id, @RequestBody Message message) {
         return messageService.updateMessage(message, id);
     }
+
     @DeleteMapping("/{id}")
     public void deleteMessage(@PathVariable int id) {
         messageService.deleteMessage(id);
+    }
+
+    @GetMapping("/chat/{chatId}")
+    public List<Message> getMessagesByChatId(@PathVariable int chatId) {
+        return messageService.getMessagesByChatId(chatId);
+    }
+
+    @MessageMapping("/sendMessage")
+    public void handleWebSocketMessage(Message message) {
+        // Process and send the message using WebSocket endpoint
+        messagingTemplate.convertAndSend("/topic/messages", message);
+        messageService.sendMessage(message);
     }
 }

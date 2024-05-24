@@ -54,6 +54,10 @@ public class LessonServiceImpl implements ILessonService {
         throw new RuntimeException("Lesson not found with id: " + id);
     }
     @Override
+    public List<Lesson> getLessonsByCourId(int id){
+       return lessonRepository.getLessonsByCourId(id);
+    }
+    @Override
     public Quiz getQuizByLessonId(int id) {
         return quizService.getQuizByLessonId(id);
     }
@@ -65,4 +69,5 @@ public class LessonServiceImpl implements ILessonService {
     public String getLessonNameById(int id) {
         return lessonRepository.findById(id).get().getTitle();
     }
+
 }

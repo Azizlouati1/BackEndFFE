@@ -24,7 +24,10 @@ public class CourController {
 
     @GetMapping("/{id}")
     public Cour getCourById(@PathVariable int id){
-        return courService.getCourById(id);
+        Cour cour =  courService.getCourById(id);
+        cour.setViews(cour.getViews()+1);
+        courService.saveCour(cour);
+        return cour;
     }
 
     @PostMapping("/")

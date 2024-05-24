@@ -13,7 +13,10 @@ public interface ILessonService {
     Lesson getLessonById(int id);
     Lesson saveLesson(Lesson lesson);
     void deleteLesson(int id);
-    Quiz getQuizByLessonId(int id); 
+
+    List<Lesson> getLessonsByCourId(int id);
+
+    Quiz getQuizByLessonId(int id);
     Lesson updateLesson(Lesson lesson, int id);
 
     String getLessonNameById(int id);

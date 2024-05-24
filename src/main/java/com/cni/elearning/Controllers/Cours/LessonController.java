@@ -69,5 +69,9 @@ public class LessonController {
         return lessonService.getLessonNameById(id);
     }
 
+    @GetMapping("/cour/{id}")
+    public List<Lesson> getLessonByCourId(@PathVariable int id){
+        return lessonService.getLessonsByCourId(id);
+    }
 
 }

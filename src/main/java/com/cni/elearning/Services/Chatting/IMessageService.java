@@ -14,4 +14,6 @@ public interface IMessageService {
     void deleteMessage(int id);
 
     Message updateMessage(Message message, int id);
+
+    List<Message> getMessagesByChatId(int chatId);
 }

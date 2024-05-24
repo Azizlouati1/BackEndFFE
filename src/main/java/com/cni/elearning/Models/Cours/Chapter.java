@@ -23,7 +23,7 @@ public class Chapter {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "lesson_id",unique = true, nullable = false)
+    @JoinColumn(name = "lesson_id", nullable = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Lesson lesson;

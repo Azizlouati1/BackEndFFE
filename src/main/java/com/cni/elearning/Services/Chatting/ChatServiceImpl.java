@@ -31,11 +31,8 @@ public class ChatServiceImpl implements IChatService{
         Student student = studentRepository.findById(chat.getStudent()).orElse(null);
         Chat savedChat = chatRepository.findChat(chat.getStudent(), chat.getInstructor());
         Chat chatToSave = new Chat();
-        System.out.println("nothing for now");
         assert instructor != null;
-        System.out.println("instructor");
         assert student != null;
-        System.out.println("student");
         chatToSave.setInstructor(instructor);
         chatToSave.setStudent(student);
         if (savedChat == null) {

@@ -43,6 +43,8 @@ public class Cour {
     @Lob
     private byte[] image;
     private float rating =3;
+    @Column(nullable = true )
+    private int views = 0;
 
     @ManyToOne
     @JoinColumn(name = "instructorId")

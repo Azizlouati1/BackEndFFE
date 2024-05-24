@@ -10,9 +10,6 @@ import com.cni.elearning.Repositories.Users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,8 +26,8 @@ public class MessageServiceImpl implements IMessageService{
                 .orElseThrow(() -> new IllegalArgumentException("Sender not found"));
         User userReceiver = userRepository.findById(message.getReceiver())
                 .orElseThrow(() -> new IllegalArgumentException("Receiver not found"));
-        Chat chat = chatRepository.findById(message.getChat().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Chat not found"));
+        Chat chat = chatRepository.findById(message.getChat().getId()).orElse(null);
+        assert chat != null;
 
         // Check if sender or receiver is an instructor and the other is a student
         if ((userSender.getRole() == Role.INSTRUCTOR && userReceiver.getRole() == Role.STUDENT) ||
@@ -38,11 +35,6 @@ public class MessageServiceImpl implements IMessageService{
             // Check if the chat involves the correct users
             if ((userSender.getId() == chat.getInstructor().getId() && userReceiver.getId() == chat.getStudent().getId()) ||
                     (userSender.getId() == chat.getStudent().getId() && userReceiver.getId() == chat.getInstructor().getId())) {
-                System.out.println("Sending message");
-                LocalDateTime localDateTime = LocalDateTime.now().plusHours(1); // Adding 1 hour for Tunisia time zone
-                Date currentDate = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-                message.setDate(currentDate);
-                System.out.println("Message sent");
                 return messageRepository.save(message);
             } else {
                 System.out.println("Invalid chat participants");
@@ -72,6 +64,10 @@ public class MessageServiceImpl implements IMessageService{
             messageRepository.save(message);
         }
         throw new RuntimeException("message not found");
+    }
+    @Override
+    public List<Message> getMessagesByChatId(int chatId){
+        return messageRepository.findMessagesByChatId(chatId);
     }
 
 }
