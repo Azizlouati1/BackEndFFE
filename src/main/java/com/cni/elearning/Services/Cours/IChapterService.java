@@ -3,6 +3,7 @@ package com.cni.elearning.Services.Cours;
 import java.util.List;
 
 import com.cni.elearning.Models.Cours.Chapter;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface IChapterService {
     
@@ -14,4 +15,5 @@ public interface IChapterService {
     Chapter updateChapter(Chapter chapter, int id);
 
     String getChapterNameById(int id);
+
 }

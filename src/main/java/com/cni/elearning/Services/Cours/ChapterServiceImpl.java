@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cni.elearning.Models.Cours.Chapter;
 import com.cni.elearning.Repositories.Cours.ChapterRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ChapterServiceImpl implements IChapterService {
@@ -59,5 +60,6 @@ public class ChapterServiceImpl implements IChapterService {
     public String getChapterNameById(int id) {
         return chapterRepository.findById(id).get().getTitle();
     }
-    }
+
+}
 

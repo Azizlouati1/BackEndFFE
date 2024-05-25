@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +36,28 @@ public class ChapterController {
     }
 
     @PostMapping("/")
-    public Chapter saveChapter(@RequestBody Chapter chapter) {
+    public Chapter saveChapter(@ModelAttribute Chapter chapterRequest, @RequestParam(value = "file", required = false) MultipartFile file) {
+        Chapter chapter = new Chapter();
+        chapter.setLesson(chapterRequest.getLesson().getId());
+        chapter.setTitle(chapterRequest.getTitle());
+        chapter.setDescription(chapterRequest.getDescription());
+
+        if (file != null && !file.isEmpty()) {
+            chapter.setCourFile(saveFileToDisk(file));
+        }
+
         return chapterService.saveChapter(chapter);
+    }
+
+
+    private String saveFileToDisk(MultipartFile file) {
+        String filePath = "C:/ELearningFiles/" + file.getOriginalFilename();
+        try {
+            file.transferTo(new File(filePath));
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle file saving error
+        }
+        return filePath;
     }
     @PutMapping("/{id}")
     public Chapter updateChapter(@RequestBody Chapter chapter, @PathVariable int id){
@@ -72,4 +93,5 @@ public class ChapterController {
         pdf.close();
         return baos.toString(StandardCharsets.UTF_8);
     }
+
 }

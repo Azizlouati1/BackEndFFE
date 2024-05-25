@@ -109,7 +109,7 @@
     let currentChatId = null;
 
     function connect() {
-        const socket = new SockJS('/ws/stomp-endpoint');
+        const socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
