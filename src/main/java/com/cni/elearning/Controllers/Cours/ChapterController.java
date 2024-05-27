@@ -41,6 +41,8 @@ public class ChapterController {
         chapter.setLesson(chapterRequest.getLesson().getId());
         chapter.setTitle(chapterRequest.getTitle());
         chapter.setDescription(chapterRequest.getDescription());
+        chapter.setCoursesContent(chapterRequest.getCoursesContent());
+        chapter.setVideo(chapterRequest.getVideo());
 
         if (file != null && !file.isEmpty()) {
             chapter.setCourFile(saveFileToDisk(file));
