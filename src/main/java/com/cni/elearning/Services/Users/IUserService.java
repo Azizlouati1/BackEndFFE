@@ -11,6 +11,8 @@ public interface IUserService {
     User getUserById(int id);
     List<User> getAllUsers(); 
     void deleteUser(int id);
-    User updateUser(User user);
+
+    User updateUser(User user, int id);
+
     User getUserByEmail(String email);
 }

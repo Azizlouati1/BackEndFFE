@@ -1,6 +1,7 @@
 package com.cni.elearning.Controllers.Chatting;
 
 import com.cni.elearning.Dtos.ChatDTO;
+import com.cni.elearning.Models.Users.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +47,9 @@ public class ChatController {
     @DeleteMapping("/{id}")
     public void deleteChat(@PathVariable("id") int id){
         chatService.deleteChat(id);
+    }
+    @GetMapping("/getReceiver/{chatId}/{senderId}")
+    public User getBySenderId(@PathVariable int chatId, @PathVariable int senderId){
+        return chatService.getUserByChatIdAndSenderId(chatId,senderId);
     }
 }
