@@ -57,12 +57,11 @@ public class EventServiceImpl implements IEventService{
             throw new RuntimeException("Participant with ID " + participantId + " does not exist in the event");
         }
 
-        if (event.getWinner() != null) {
+        if (event.hasWinner()) {
             throw new RuntimeException("Event with ID " + id + " already has a winner");
         }
 
         // Setting the winner and updating the participant
-        event.setWinner(participant);
         participant.setWinner(true);
 
         // Adding XP to the participant's student level

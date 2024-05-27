@@ -5,6 +5,7 @@ import com.cni.elearning.Models.Events.Participant;
 import com.cni.elearning.Models.FeedBacks.FeedBack;
 import com.cni.elearning.Models.Levelling.Level;
 import com.cni.elearning.Models.Paiements.Payments;
+import com.cni.elearning.Models.Paiements.Refund;
 import com.cni.elearning.Models.Progress.Progress;
 import com.cni.elearning.Models.Progress.QuizTests;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -30,6 +31,8 @@ public class Student extends User {
     @JsonIdentityReference(alwaysAsId = true)
     private List<Chat> chats = new ArrayList<>();
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Participant> participants = new ArrayList<>();
     @OneToMany(mappedBy = "student" , cascade = CascadeType.ALL)
     private List<FeedBack> feedBacks = new ArrayList<>();
@@ -41,6 +44,10 @@ public class Student extends User {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private List<Payments> payments;
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "transactionId")
+    @JsonIdentityReference(alwaysAsId = true)
+    private List<Refund> refund;
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)

@@ -35,6 +35,14 @@ public class Event {
     private List<Participant> participants;
     @Column(nullable = false)
     private int reward;
-    @ManyToOne
-    private Participant winner;
+
+    public boolean hasWinner() {
+        for (Participant participant : participants) {
+            if (participant.getWinner()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

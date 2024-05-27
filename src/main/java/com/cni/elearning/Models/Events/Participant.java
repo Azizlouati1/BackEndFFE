@@ -24,26 +24,23 @@ public class Participant {
     private int id;
     private Date timeDeposed;
     private String answer;
-    @ManyToOne
-    private Student student = new Student();
-    @ManyToOne
-    private Event event = new Event();
+    @ManyToOne(optional = false)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Student student;
+    @ManyToOne(optional = false)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private Event event ;
     private Boolean winner = false ;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Student getStudent() {
-        return student;
-    }
     public void setStudent( int id ){
+        this.student = new Student();
         this.student.setId(id);
     }
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
-    public Event getEvent() {
-        return event;
-    }
+
     public void setEvent( int id ){
+        this.event = new Event();
         this.event.setId(id);
     }
 
