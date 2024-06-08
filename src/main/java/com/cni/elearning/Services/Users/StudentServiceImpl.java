@@ -1,14 +1,11 @@
 package com.cni.elearning.Services.Users;
 
 
-import ch.qos.logback.classic.LoggerContext;
 import com.cni.elearning.Models.Levelling.Level;
 import com.cni.elearning.Models.Users.Student;
 import com.cni.elearning.Models.Users.Role;
 import com.cni.elearning.Repositories.Levelling.LevelRepository;
 import com.cni.elearning.Repositories.Users.StudentRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -59,7 +56,7 @@ public class StudentServiceImpl implements IStudentService {
             return studentRepository.findById(id).orElse(null);
         }
         @Override
-        public void deleteInstructor(int id){
+        public void deleteStudent(int id){
             studentRepository.deleteById(id);
         }
     @Override

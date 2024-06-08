@@ -55,5 +55,9 @@ public class Student extends User {
     private Boolean isSubscribed = false;
     private LocalDateTime dateEnd ;
     private String phoneNumber;
+    @Column(nullable = true)
+    private int age = 0;
+    @Column(nullable = true)
+    private String gender = "Male";
 
 }

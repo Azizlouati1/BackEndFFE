@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -29,6 +31,7 @@ public class QuizTests {
     @JsonIdentityReference(alwaysAsId = true)
     private Quiz quiz = new Quiz();
     private int score;
+    private LocalDateTime timePassed = LocalDateTime.now();
 
     public void setStudent(int id){
         this.student.setId(id);

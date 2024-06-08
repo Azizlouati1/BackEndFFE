@@ -35,6 +35,9 @@ public class Event {
     private List<Participant> participants;
     @Column(nullable = false)
     private int reward;
+    @Column(nullable = true )
+    @Lob
+    private byte[] image;
 
     public boolean hasWinner() {
         for (Participant participant : participants) {

@@ -20,7 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Cour {
-    @Id
+        @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -34,7 +34,6 @@ public class Cour {
     private int difficulty;
     @Column(nullable = false )
     private Boolean premium;
-    @Column(nullable = true )
     private String recommendedLevel;
     @Column(nullable = true )
     @OneToMany(mappedBy = "cour",cascade = CascadeType.ALL)

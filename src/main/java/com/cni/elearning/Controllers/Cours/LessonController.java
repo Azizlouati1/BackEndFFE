@@ -61,8 +61,7 @@ public class LessonController {
 
     @GetMapping("/chapters/{lessonId}")
     public List<Chapter> getChaptersByLessonId(@PathVariable int lessonId){
-        List<Chapter> chapters = lessonService.getChaptersByLessonId(lessonId);
-        return chapters;
+        return  lessonService.getChaptersByLessonId(lessonId);
     }
     @GetMapping("/{id}/name")
     public String getLessonNameById(@PathVariable int id){
