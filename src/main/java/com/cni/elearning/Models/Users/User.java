@@ -3,6 +3,10 @@ package com.cni.elearning.Models.Users;
 import java.util.Collection;
 import java.util.List;
 
+import com.cni.elearning.Models.Notifications.Notification;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +43,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
+    private List<Notification> notifications;
 
     public User(String firstname, String lastname, String email, String password, Role role , byte[] image) {
         this.firstname = firstname;

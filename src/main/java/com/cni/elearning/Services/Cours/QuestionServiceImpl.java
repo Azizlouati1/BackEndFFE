@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.cni.elearning.Models.Cours.Answer;
 import com.cni.elearning.Models.Cours.Quiz;
+import com.cni.elearning.Repositories.Cours.AnswerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,8 @@ import com.cni.elearning.Repositories.Cours.QuestionRepository;
 public class QuestionServiceImpl implements IQuestionService {
     private final QuestionRepository questionRepository;
     private final IAnswerService answerService;
+    private final AnswerRepository answerRepository;
+
     @Override
     public List<Question> getAllQuestions() {
         return questionRepository.findAll();
@@ -46,13 +49,31 @@ public class QuestionServiceImpl implements IQuestionService {
         questionRepository.deleteByQuizId(quizId);
     }
     @Override
-    public Question updateQuestion( Question question, int id) {
-        Optional<Question> question1 = questionRepository.findById(id);
-        if(question1.isPresent()) {
-            return questionRepository.save(question);
+    public Question updateQuestion( Question updatedQuestion,int questionId) {
+        // Retrieve the existing question
+        Question existingQuestion = questionRepository.findById(questionId).orElseThrow(() ->
+                new RuntimeException("Question not found"));
+
+        // Update the question details
+        existingQuestion.setQuestion(updatedQuestion.getQuestion());
+
+        // Retrieve the updated answers
+        List<Answer> updatedAnswers = updatedQuestion.getOptions();
+
+        // Update or add new answers
+        for (Answer updatedAnswer : updatedAnswers) {
+            if (answerRepository.findById(updatedAnswer.getId()).isPresent()) {
+                Answer existingAnswer = answerService.getAnswerById(updatedAnswer.getId());
+                existingAnswer.setAnswer(updatedAnswer.getAnswer());
+                answerService.saveAnswer(existingAnswer);
+            } else {
+                updatedAnswer.setQuestion(existingQuestion.getId());
+                answerService.saveAnswer(updatedAnswer);
+            }
         }
-        throw new RuntimeException( "Question not found with id "+id);
+
+        // Save the updated question
+        return questionRepository.save(existingQuestion);
     }
-   
 
 }

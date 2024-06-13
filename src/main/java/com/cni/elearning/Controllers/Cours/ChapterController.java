@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import com.cni.elearning.Repositories.Cours.ChapterRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class ChapterController {
 
     private final IChapterService chapterService;
+    private final ChapterRepository chapterRepository;
 
-    public ChapterController(IChapterService chapterService) {
+    public ChapterController(IChapterService chapterService, ChapterRepository chapterRepository) {
         this.chapterService = chapterService;
+        this.chapterRepository = chapterRepository;
     }
 
     @GetMapping("/")
@@ -38,6 +41,10 @@ public class ChapterController {
     @PostMapping("/")
     public Chapter saveChapter(@ModelAttribute Chapter chapterRequest, @RequestParam(value = "file", required = false) MultipartFile file) {
         Chapter chapter = new Chapter();
+        return GetOneChapter(chapterRequest, file, chapter);
+    }
+
+    private Chapter GetOneChapter(@ModelAttribute Chapter chapterRequest, @RequestParam(value = "file", required = false) MultipartFile file, Chapter chapter) {
         chapter.setLesson(chapterRequest.getLesson().getId());
         chapter.setTitle(chapterRequest.getTitle());
         chapter.setDescription(chapterRequest.getDescription());
@@ -46,6 +53,9 @@ public class ChapterController {
 
         if (file != null && !file.isEmpty()) {
             chapter.setCourFile(saveFileToDisk(file));
+        }
+        else {
+            chapter.setCourFile(null);
         }
 
         return chapterService.saveChapter(chapter);
@@ -61,11 +71,18 @@ public class ChapterController {
         }
         return filePath;
     }
-    @PutMapping("/{id}")
-    public Chapter updateChapter(@RequestBody Chapter chapter, @PathVariable int id){
-        return chapterService.updateChapter(chapter, id);
-    }
+    @PutMapping("/{chapterId}")
+    public Chapter updateChapter(
+            @PathVariable int chapterId,
+            @ModelAttribute Chapter chapterRequest,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
+        // Retrieve the existing chapter
+        Chapter existingChapter = chapterRepository.findById(chapterId).orElseThrow(() ->
+                new RuntimeException("Chapter not found"));
 
+        // Update the chapter details
+        return GetOneChapter(chapterRequest, file, existingChapter);
+    }
     @DeleteMapping("/{id}")
     public void deleteChapter(@PathVariable int id){
         chapterService.deleteChapter(id);

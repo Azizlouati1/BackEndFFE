@@ -7,6 +7,7 @@ import com.cni.elearning.Models.Users.User;
 import com.cni.elearning.Repositories.Chatting.ChatRepository;
 import com.cni.elearning.Repositories.Chatting.MessageRepository;
 import com.cni.elearning.Repositories.Users.UserRepository;
+import com.cni.elearning.Services.Notifications.INotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class MessageServiceImpl implements IMessageService{
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
-
+    private final INotificationService notificationService;
     @Override
     public Message sendMessage(Message message) {
         // Retrieve sender, receiver, and chat from repositories
@@ -35,6 +36,7 @@ public class MessageServiceImpl implements IMessageService{
             // Check if the chat involves the correct users
             if ((userSender.getId() == chat.getInstructor().getId() && userReceiver.getId() == chat.getStudent().getId()) ||
                     (userSender.getId() == chat.getStudent().getId() && userReceiver.getId() == chat.getInstructor().getId())) {
+                notificationService.addNotification(userReceiver.getId(),"you received a message from " + userSender.getFirstname() +" "+ userSender.getLastname());
                 return messageRepository.save(message);
             } else {
                 System.out.println("Invalid chat participants");

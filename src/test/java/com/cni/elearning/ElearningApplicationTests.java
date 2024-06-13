@@ -32,6 +32,7 @@ import com.cni.elearning.Services.Cours.ICourService;
 import com.cni.elearning.Services.Events.ParticipantServiceImpl;
 import com.cni.elearning.Services.FeedBacks.FeedBackServiceImpl;
 import com.cni.elearning.Services.Levelling.ILevelService;
+import com.cni.elearning.Services.Notifications.IEmailService;
 import com.cni.elearning.Services.Progresses.ProgressServiceImpl;
 import com.cni.elearning.Services.Security.IAuthenticationService;
 import com.cni.elearning.Services.payments.IPaymentService;
@@ -156,7 +157,7 @@ class ElearningApplicationTests {
 		RefundRepository refundRepository = mock(RefundRepository.class);
 		RestTemplate restTemplate = mock(RestTemplate.class);
 
-		PaymentsController paymentsController = new PaymentsController(paymentService, studentRepository, refundRepository);
+		PaymentsController paymentsController = new PaymentsController(paymentService, studentRepository, (IEmailService) refundRepository);
 
 		when(studentRepository.findById(studentId)).thenReturn(Optional.of(student));
 

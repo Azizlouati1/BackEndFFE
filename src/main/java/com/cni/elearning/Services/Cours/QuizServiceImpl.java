@@ -5,6 +5,7 @@ import com.cni.elearning.Models.Cours.Lesson;
 import com.cni.elearning.Models.Cours.Quiz;
 import com.cni.elearning.Models.Cours.Question;
 import com.cni.elearning.Repositories.Cours.LessonRepository;
+import com.cni.elearning.Repositories.Cours.QuestionRepository;
 import com.cni.elearning.Repositories.Cours.QuizRepository;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class QuizServiceImpl implements IQuizService {
     private final QuizRepository quizRepository;
     private final IQuestionService questionService;
     private final LessonRepository lessonRepository;
+    private final QuestionRepository questionRepository;
 
     @Override
     public List<Quiz> getAllQuizzes() {
@@ -61,12 +63,29 @@ public class QuizServiceImpl implements IQuizService {
 
     }
     @Override
-    public  Quiz updateQuiz(int id, Quiz quiz){
-        Optional<Quiz> optionalQuiz = quizRepository.findById(id);
-        if(optionalQuiz.isPresent()){
-            return quizRepository.save(quiz);
+    public Quiz updateQuiz(int quizId, Quiz updatedQuiz) {
+        Quiz existingQuiz = quizRepository.findById(quizId).orElseThrow(() ->
+                new RuntimeException("Quiz not found"));
+        if (updatedQuiz.getQuestions().size() < updatedQuiz.getPassingScore()) {
+            throw new RuntimeException("Passing score should be equal or less than the number of questions");
         }
-        throw new RuntimeException("Quiz not found with id " + id);
+        Lesson lessonOfQuiz = lessonRepository.findById(existingQuiz.getLesson().getId()).orElse(null);
+        assert lessonOfQuiz != null;
+        existingQuiz.setTitle(updatedQuiz.getTitle());
+        existingQuiz.setDescription(updatedQuiz.getDescription());
+        existingQuiz.setPassingScore(updatedQuiz.getPassingScore());
+        List<Question> updatedQuestions = updatedQuiz.getQuestions();
+        for (Question updatedQuestion : updatedQuestions) {
+            if (questionRepository.findById(updatedQuestion.getId()).isPresent()) {
+                questionService.updateQuestion(updatedQuestion,updatedQuestion.getId());
+            } else {
+                updatedQuestion.setQuiz(existingQuiz.getId());
+                questionService.saveQuestion(updatedQuestion);
+            }
+        }
+        Quiz savedQuiz = quizRepository.save(existingQuiz);
+        savedQuiz.setScore(updatedQuestions.size());
+        return quizRepository.save(savedQuiz);
     }
     @Override
     public String getQuizNameById(int id) {

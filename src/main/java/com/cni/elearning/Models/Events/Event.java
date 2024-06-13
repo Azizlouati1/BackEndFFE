@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.awt.*;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class Event {
     @Column(nullable = true )
     @Lob
     private byte[] image;
-
+    @Column( nullable = true)
+    private String color;
     public boolean hasWinner() {
         for (Participant participant : participants) {
             if (participant.getWinner()) {
